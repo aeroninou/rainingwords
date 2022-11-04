@@ -1,4 +1,16 @@
 package com.word;
 
 
-enum Difficult { EASY, MEDIUM, HARD}
+enum Difficult {
+    /**
+     * TODO: vlad
+     *  - smart enum
+     *  create the 3 files
+     * */
+    EASY,
+    MEDIUM,
+    HARD
+
+
+
+}
