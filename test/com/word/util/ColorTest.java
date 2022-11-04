@@ -1,12 +1,11 @@
 package com.word.util;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class ColorTest {
-    private String text = "hello";
+    private final String text = "hello";
 
     @Test
     public void setFontColor_shouldContainOriginalText() {

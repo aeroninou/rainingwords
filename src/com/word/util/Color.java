@@ -1,7 +1,9 @@
 package com.word.util;
 
 enum Color {
-    GREEN("[32m", "[42m");
+    GREEN("[32m", "[42m"),
+    YELLOW("[33m", "[43m"),
+    RED("[31m", "[41m");
 
     private final String fontCode;
     private final String backgroundCode;
