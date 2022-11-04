@@ -4,5 +4,4 @@ class Main {
     /**
      * TODO: Vlad
      * */
-
 }
