@@ -1,7 +1,7 @@
 package com.word;
 
 
-enum Difficulty {
+public enum Difficulty {
     /**
      * TODO: vlad
      *  - smart enum
