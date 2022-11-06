@@ -1,6 +1,7 @@
 package com.word;
 
-import com.word.util.Color;
+
+import java.util.Random;
 
 
 public class Word {
@@ -11,25 +12,25 @@ public class Word {
     private int xPos;
     private int yPos;
     boolean isAlive;
-    Color color;
+
+    private final Random rand = new Random();
+    private final int RANGE_X = 100;
+    private final int RANGE_Y = 100;
+    private final static double LEFT_MOVE_CHANCE = 0.5;
+    private final static int FALL_Y_SPEED = 20;
 
 
+    private boolean negative() {
+        return Math.random() < LEFT_MOVE_CHANCE;
+    }
     //need to change String difficult to Enum difficulty.
-    public StringBuilder fall(String word, int fallingSpeed){
-            int randomNumberOfSpaces = (int) (Math.random() * 20 + 1);
-            StringBuilder line = new StringBuilder();
-            for (int i = 0; i < randomNumberOfSpaces; i++){
-                line.append(" ");
-            }
-            line.append(word);
-            if (fallingSpeed == 1){ //1 is easy
-                line.append("\n");
-            } else if (fallingSpeed == 2){ //2 is medium
-                line.append("\n\n");
-            } else {
-                line.append("\n\n\n");
-            }
-            return line;
+    public void fall(int fallingSpeed){
+        int deltaX = rand.nextInt(RANGE_X) + 1;
+        if (negative()) deltaX = -deltaX;
+        xPos = xPos + deltaX;
+        yPos = yPos + FALL_Y_SPEED;  // fixed y drop seems better
+
+
     }
 
     public void changeColor(){
@@ -48,10 +49,6 @@ public class Word {
 
     public StringBuilder getText() {
         return text;
-    }
-
-    public Color getColor() {
-        return color;
     }
 
     public int getxPos() {
