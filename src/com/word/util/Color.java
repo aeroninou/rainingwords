@@ -3,7 +3,7 @@ package com.word.util;
 /**
  * Convenient enum for creating text with different font and background colors.
  */
-enum Color {
+public enum Color {
     GREEN("[32m", "[42m"),
     YELLOW("[33m", "[43m"),
     RED("[31m", "[41m");

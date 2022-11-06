@@ -1,16 +1,18 @@
 package com.word;
 
-import java.awt.*;
+import com.word.util.Color;
 
-class Word {
+
+public class Word {
 
     private int pointValue;
     private int fallingSpeed;
     private StringBuilder text;
-    Color color;
     private int xPos;
     private int yPos;
     boolean isAlive;
+    Color color;
+
 
     //need to change String difficult to Enum difficulty.
     public StringBuilder fall(String word, int fallingSpeed){
@@ -71,10 +73,5 @@ class Word {
     public boolean isAlive() {
         return isAlive;
     }
-
-    /**
-     * TODO:
-     *  toString()
-     * */
 
 }
