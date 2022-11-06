@@ -1,6 +1,6 @@
 package com.word.app;
 
-class Player {
+public class Player {
 
     private static int idCount;
     private int id;

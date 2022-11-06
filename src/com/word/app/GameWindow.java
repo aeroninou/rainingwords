@@ -1,17 +1,15 @@
 package com.word.app;
 
-import com.word.Word;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
-class GameWindow extends JFrame {
+public class GameWindow extends JFrame {
 
     public static final String GAME_TITLE = "Raining Words";
     private static final String FONT_NAME = "SansSerif";
@@ -35,7 +33,7 @@ class GameWindow extends JFrame {
     private final JLabel wordsCorrectLabel = new JLabel("Correct Words: ");
     private final JLabel wordsCorrectCountLabel = new JLabel("0");
 
-    private final java.util.List<Word> remainingWords;
+    private final java.util.List<String> remainingWords;
     private final JPanel wordFallingArea = new JPanel(null);
     private final Collection<JLabel> fallingLabels = new ArrayList<>();
 
@@ -46,7 +44,7 @@ class GameWindow extends JFrame {
     private final JLabel wordEchoLabel = new JLabel("", SwingConstants.CENTER);
 
     // Constructor(s)
-    public GameWindow(Player player, java.util.List<Word> words) {
+    public GameWindow(Player player, java.util.List<String> words) {
         super(GAME_TITLE);
         this.remainingWords = words;
         buildUI(player);
@@ -55,6 +53,11 @@ class GameWindow extends JFrame {
         System.out.println("northPanel: " + playerInfoArea.getBounds());
         System.out.println("centerPanel: "  + wordFallingArea.getBounds());
         System.out.println("southPanel: " + inputArea.getBounds());
+        for (JLabel wordLabel: fallingLabels) {
+            wordLabel.setText(wordLabel.getText());
+            wordLabel.setBounds(350, -20, 100, 25);
+            new FallWordsThread(wordLabel).start();
+        }
     }
 
     private void buildUI(Player player) {
@@ -86,8 +89,9 @@ class GameWindow extends JFrame {
         Font font = new Font(FONT_NAME, Font.BOLD, 18);
         // Add labels of the falling words to the word falling area.
         for (int i = 0; i < WORD_FALLING_COUNT; i++) {
-            Word word = this.remainingWords.get(i);
-            JLabel wordLabel = new JLabel(word.getText().toString());
+            String word = this.remainingWords.remove(0);
+            JLabel wordLabel = new JLabel(word);
+            wordLabel.setBounds(350, -20, 100, 25);
             wordLabel.setFont(font);
             fallingLabels.add(wordLabel); // Create empty labels.
             wordFallingArea.add(wordLabel);
@@ -102,7 +106,7 @@ class GameWindow extends JFrame {
         wordInputField.setFont(font);
         wordInputField.addActionListener(new WordInputFieldListener());
         wordEchoLabel.setFont(font);
-        wordEchoLabel.setText("echo");
+        wordEchoLabel.setText("");
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -127,6 +131,17 @@ class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         // TODO: Window is visible as soon as it's created. May not want this to be the case...
         setVisible(true);
+    }
+
+    private class StartButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for (JLabel wordLabel: fallingLabels) {
+                wordLabel.setText(wordLabel.getText());
+                wordLabel.setBounds(350, -20, 100, 25);
+                new FallWordsThread(wordLabel).start();
+            }
+        }
     }
 
     private class WordInputFieldListener implements ActionListener {
@@ -157,21 +172,76 @@ class GameWindow extends JFrame {
     }
 
     private class FallWordsThread extends Thread {
+        private final Random rand = new Random();
+        private static final int GREEN_CUT_OFF = 100;
+        private static final int ORANGE_CUTOFF = 250;
+        private static final int DISAPPEAR_Y_CUTOFF = 400;
+        private static final int RANGE_X = 100;
+        private static final double MOVE_LEFT_CHANCE = 0.5;
+
+        public JLabel wordLabel;
+
+        public FallWordsThread(JLabel wordLabel) {
+            this.wordLabel = wordLabel;
+        }
+
         @Override
         public void run() {
-            for (int i = 0; i < WORD_FALLING_COUNT && i < remainingWords.size(); i++) {
-                Word word = remainingWords.get(i);
-                // word.fall();
-                int x = word.getxPos();
-                int y = word.getyPos();
-                // set the label position
-                // wordLabel.setBounds(x, y, 100, 25);
-                // set the color
+            while(!wordLabel.getText().equals("")) {
+                int yCoordinate = wordLabel.getBounds().y;
+                int xCoordinate = wordLabel.getBounds().x;
+                while( yCoordinate < DISAPPEAR_Y_CUTOFF && !wordLabel.getText().equals("")) {
+                    // Figure out new position.
+                    xCoordinate = getNewXCoordinate(xCoordinate);
+                    if (xCoordinate < 5 || xCoordinate > 775)
+                        continue;
+                    yCoordinate += 20;
+                    wordLabel.setBounds(xCoordinate, yCoordinate, 100, 25);
+
+                    // See if color needs to change.
+                    Color color;
+                    if (yCoordinate <= GREEN_CUT_OFF)
+                        color = Color.GREEN;
+                    else if (yCoordinate <= ORANGE_CUTOFF)
+                        color = Color.ORANGE;
+                    else
+                        color = Color.RED;
+                    wordLabel.setForeground(color);
+
+                    pause(300);
+                }
+                // Make word disappear...
+                wordLabel.setText("");
+                // See if there are any other words to make fall
+                if (!remainingWords.isEmpty()) {
+                    // Set the text to the next word.
+                    String nextWord = remainingWords.remove(0); // [aeron, sergio, vlad], so remove aeron
+                    wordLabel.setText(nextWord);
+
+                    // Move it back to the top
+                    wordLabel.setBounds(350, -20, 100, 25);
+                }
+            }
+
+        }
+
+        private void pause(long pause) {
+            try {
+                Thread.sleep(pause);
+            } catch (InterruptedException ignored) {
             }
         }
-    }
 
-    public static void main(String[] args) {
-        // new GameWindow(new Player("Sergio"));
+        private int getNewXCoordinate(int xCoordinate) {
+            int deltaX = rand.nextInt(RANGE_X) + 1;
+            if (negative()) deltaX = -deltaX;
+            return xCoordinate + deltaX;
+        }
+
+        private boolean negative() {
+            return Math.random() < MOVE_LEFT_CHANCE;
+        }
+
+
     }
 }
