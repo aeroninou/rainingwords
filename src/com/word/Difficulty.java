@@ -42,10 +42,6 @@ public enum Difficulty {
         return fileName;
     }
 
-}
-
-class Main
-{
     public static void main(String[] args)
     {
 //        Path path = Paths.get("easy.txt");
@@ -62,4 +58,8 @@ class Main
 
         System.out.println(content);
     }
+
 }
+
+
+
