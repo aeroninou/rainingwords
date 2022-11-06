@@ -35,6 +35,7 @@ class GameWindow extends JFrame {
     private final JLabel wordsCorrectLabel = new JLabel("Correct Words: ");
     private final JLabel wordsCorrectCountLabel = new JLabel("0");
 
+    private final java.util.List<Word> remainingWords;
     private final JPanel wordFallingArea = new JPanel(null);
     private final Collection<JLabel> fallingLabels = new ArrayList<>();
 
@@ -45,8 +46,9 @@ class GameWindow extends JFrame {
     private final JLabel wordEchoLabel = new JLabel("", SwingConstants.CENTER);
 
     // Constructor(s)
-    public GameWindow(Player player) {
+    public GameWindow(Player player, java.util.List<Word> words) {
         super(GAME_TITLE);
+        this.remainingWords = words;
         buildUI(player);
         setFrameOptions();
 
@@ -84,7 +86,8 @@ class GameWindow extends JFrame {
         Font font = new Font(FONT_NAME, Font.BOLD, 18);
         // Add labels of the falling words to the word falling area.
         for (int i = 0; i < WORD_FALLING_COUNT; i++) {
-            JLabel wordLabel = new JLabel("Word" + 1);
+            Word word = this.remainingWords.get(i);
+            JLabel wordLabel = new JLabel(word.getText().toString());
             wordLabel.setFont(font);
             fallingLabels.add(wordLabel); // Create empty labels.
             wordFallingArea.add(wordLabel);
@@ -153,7 +156,22 @@ class GameWindow extends JFrame {
         }
     }
 
+    private class FallWordsThread extends Thread {
+        @Override
+        public void run() {
+            for (int i = 0; i < WORD_FALLING_COUNT && i < remainingWords.size(); i++) {
+                Word word = remainingWords.get(i);
+                // word.fall();
+                int x = word.getxPos();
+                int y = word.getyPos();
+                // set the label position
+                // wordLabel.setBounds(x, y, 100, 25);
+                // set the color
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        new GameWindow(new Player("Sergio"));
+        // new GameWindow(new Player("Sergio"));
     }
 }
