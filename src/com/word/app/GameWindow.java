@@ -32,7 +32,7 @@ public class GameWindow extends JFrame {
     private final JLabel wordsCorrectLabel = new JLabel("Correct Words: ");
     private final JLabel wordsCorrectCountLabel = new JLabel();
 
-    private final java.util.List<String> remainingWords;
+    private java.util.List<String> remainingWords;
     private final JPanel wordFallingArea = new JPanel(null);
     private final Collection<JLabel> fallingLabels = new ArrayList<>();
 
@@ -46,21 +46,18 @@ public class GameWindow extends JFrame {
     // Constructor(s)
     public GameWindow(Player player, java.util.List<String> words) {
         super(Game.TITLE);
-        this.remainingWords = words;
+        setRemainingWords(words);
         buildUI(player);
         setFrameOptions();
+    }
 
-        System.out.println("northPanel: " + playerInfoArea.getBounds());
-        System.out.println("centerPanel: "  + wordFallingArea.getBounds());
-        System.out.println("southPanel: " + inputArea.getBounds());
+    public void setRemainingWords(java.util.List<String> words) {
+        // Make a copy of the words being passed in.
+        this.remainingWords = new ArrayList<>(words);
     }
 
     public Rectangle getWordFallingBounds(){
         return wordFallingArea.getBounds();
-    }
-
-    public showWindow(Thread[] threads) {
-
     }
 
     private void buildUI(Player player) {
@@ -137,6 +134,21 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         // TODO: Window is visible as soon as it's created. May not want this to be the case...
         setVisible(true);
+    }
+
+    public void reset() {
+        // Reset the score to 0.
+        wordScore = 0;
+        wordsCorrectCountLabel.setText(String.valueOf(wordScore));
+
+        // Clear text on falling labels and bring them back to the top.
+        for(JLabel fallingLabel: fallingLabels) {
+            fallingLabel.setText("");
+            fallingLabel.setBounds(350, -20, 100, 25);
+        }
+
+        // Clear the echo label.
+        wordEchoLabel.setText("");
     }
 
     private class StopButtonListener implements ActionListener {
