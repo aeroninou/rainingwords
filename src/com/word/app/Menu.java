@@ -1,8 +1,12 @@
 package com.word.app;
 
+import com.apps.util.Console;
 import com.apps.util.Prompter;
 import com.word.Difficulty;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 /**
@@ -43,7 +47,23 @@ class Menu {
         return Difficulty.fromAlias(answer);
     }
 
+    public static void welcome(){
+        Console.clear(); // to clear the console to display the welcome banner
+
+        try {
+            String welcomeBanner = Files.readString(Path.of("welcomebanner.txt"));
+            System.out.println(welcomeBanner);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Console.pause(2000); // pause welcome message for 10 seconds
+        Console.clear(); // clear welcome message after 10 seconds
+
+
+    }
+
     public static void main(String[] args) {
+        Menu.welcome();
 
         String name = Menu.promptForName();
         System.out.println(name);
@@ -52,5 +72,9 @@ class Menu {
         Difficulty promptDiff = Menu.promptForDifficulty();
         System.out.println(promptDiff);
 
+
+
     }
+
+
 }
