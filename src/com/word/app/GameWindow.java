@@ -45,7 +45,7 @@ public class GameWindow extends JFrame {
 
     // Constructor(s)
     public GameWindow(Player player, java.util.List<String> words) {
-        super(Game.GAME_TITLE);
+        super(Game.TITLE);
         this.remainingWords = words;
         buildUI(player);
         setFrameOptions();
@@ -57,6 +57,10 @@ public class GameWindow extends JFrame {
 
     public Rectangle getWordFallingBounds(){
         return wordFallingArea.getBounds();
+    }
+
+    public showWindow(Thread[] threads) {
+
     }
 
     private void buildUI(Player player) {
@@ -143,7 +147,6 @@ public class GameWindow extends JFrame {
                 wordLabel.setText(wordLabel.getText());
                 wordLabel.setBounds(350, -20, 100, 25);
                 new FallWordsThread(remainingWords, wordLabel).start();
-
             }
         }
     }
@@ -152,6 +155,8 @@ public class GameWindow extends JFrame {
         /**
          * Runs whenever the player presses the RETURN (ENTER) key on keyboard after having typed a word.
          */
+        // Constructor that receives the game.
+
         @Override
         public void actionPerformed(ActionEvent e) {
             String word = wordInputField.getText();
@@ -161,11 +166,14 @@ public class GameWindow extends JFrame {
             for (JLabel fallingLabel: fallingLabels) {
                 String fallingWord = fallingLabel.getText();
                 if (fallingWord.equals(word)){
+                    // Pass the word to the game or do it in here, let the game handle updating the list and the score.
+                    // game.updateScore(fallingWord);
                     // TODO: for now just make the word disappear.. but this may not be what we want long term.
                     fallingLabel.setText("");
                     // Correct word, so echo the word in green to indicate they got it right.
                     color = Color.GREEN;
                     wordScore++;
+                    break;  // since we already found a matching word, we exit loop.
                 }
             }
             // Always reset input field after user has pressed enter.
