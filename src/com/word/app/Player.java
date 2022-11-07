@@ -2,13 +2,13 @@ package com.word.app;
 
 public class Player {
 
-    private static int idCount;
+    private static int score;
+    private int idCount;
     private int id;
     private String name;
-    private int score;
 
     public Player(String name) {
-        this.name = name;
+        setName(name);
         this.score = 0;
         id = idCount++;
     }
@@ -25,12 +25,8 @@ public class Player {
         this.name = name;
     }
 
-    public int getScore() {
+    public static int getScore() {
         return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     @Override
