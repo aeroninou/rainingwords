@@ -13,33 +13,10 @@ class Menu {
 
     // TODO: Remove once com.word.Difficult is renamed to com.word.Difficulty and once it is public.
     // TODO: ask Jay how to test, or if it's even necessary to test.
-//    private enum Difficulty {
-//        EASY("E"),
-//        MEDIUM("M"),
-//        HARD("H");
-//
-//        private final String alias;
-//
-//        Difficulty(String alias) {
-//            this.alias = alias;
-//        }
-//
-//        public String getAlias() {
-//            return alias;
-//        }
-//
-//        public static Difficulty fromAlias(String s) {
-//            if (EASY.alias.equalsIgnoreCase(s))
-//                return EASY;
-//            else if ((MEDIUM.alias.equalsIgnoreCase(s)))
-//                return MEDIUM;
-//            else if (HARD.alias.equalsIgnoreCase(s))
-//                return HARD;
-//            return null;
-//        }
-//    }
 
-    private Menu() {}
+
+    private Menu() {
+    }
 
     public static String promptForName() {
         return prompter.prompt("Player Name: ");
@@ -56,13 +33,24 @@ class Menu {
         // Case-insensitive.
         StringBuilder regex = new StringBuilder("(?i)(");
 
-        for(Difficulty difficulty: Difficulty.values()) {
+        for (Difficulty difficulty : Difficulty.values()) {
             text.append(String.format("[%s] %s\n", difficulty.getAlias(), difficulty));
-            regex.append(difficulty.alias).append("|");
+            regex.append(difficulty.getAlias()).append("|");
         }
         text.append("> ");
         regex.append(")");
         String answer = prompter.prompt(text.toString(), regex.toString(), "");
         return Difficulty.fromAlias(answer);
+    }
+
+    public static void main(String[] args) {
+
+        String name = Menu.promptForName();
+        System.out.println(name);
+        boolean continuePrompt = Menu.promptToContinue();
+        System.out.println(continuePrompt);
+        Difficulty promptDiff = Menu.promptForDifficulty();
+        System.out.println(promptDiff);
+
     }
 }

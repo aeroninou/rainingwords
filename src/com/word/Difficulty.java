@@ -25,7 +25,7 @@ public enum Difficulty {
     Difficulty(String fileName, String alias) {
         this.alias = alias;
 
-        Path path = Paths.get(fileName, alias);
+        Path path = Paths.get(fileName);
 
         try {
             words = Files.lines(path, StandardCharsets.UTF_8)
@@ -62,28 +62,4 @@ public enum Difficulty {
 }
 
 
-//    private enum Difficulty {
-//        EASY("E"),
-//        MEDIUM("M"),
-//        HARD("H");
-//
-//        private final String alias;
-//
-//        Difficulty(String alias) {
-//            this.alias = alias;
-//        }
-//
-//        public String getAlias() {
-//            return alias;
-//        }
-//
-//        public static Difficulty fromAlias(String s) {
-//            if (EASY.alias.equalsIgnoreCase(s))
-//                return EASY;
-//            else if ((MEDIUM.alias.equalsIgnoreCase(s)))
-//                return MEDIUM;
-//            else if (HARD.alias.equalsIgnoreCase(s))
-//                return HARD;
-//            return null;
-//        }
-//    }
+
