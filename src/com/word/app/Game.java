@@ -1,10 +1,8 @@
 package com.word.app;
 
 class Game {
-    /**
-     * TODO: together as a group
-     *
-     * */
+    public static final String GAME_TITLE = "Raining Words";
+
 
 
 
