@@ -3,9 +3,9 @@ package com.word.app;
 public class Player {
 
     private static int score;
+    private static String name;
     private int idCount;
     private int id;
-    private String name;
 
     public Player(String name) {
         setName(name);
@@ -17,16 +17,20 @@ public class Player {
         return id;
     }
 
-    public String getName() {
+    public static String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        Player.name = name;
     }
 
     public static int getScore() {
         return score;
+    }
+
+    public static void setScore(int score){
+        Player.score = score;
     }
 
     @Override

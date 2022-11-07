@@ -59,10 +59,6 @@ public class GameWindow extends JFrame {
         return wordFallingArea.getBounds();
     }
 
-    public showWindow(Thread[] threads) {
-
-    }
-
     private void buildUI(Player player) {
         buildPlayerInfoArea(player);
         buildWordFallingArea();
@@ -181,8 +177,23 @@ public class GameWindow extends JFrame {
             // Echo word in green if correct, or red if incorrect.
             wordEchoLabel.setText(word);
             wordEchoLabel.setForeground(color);
+            Player.setScore(wordScore);
             wordsCorrectCountLabel.setText(String.valueOf(wordScore));
         }
+    }
+
+    public void showWindow(){
+
+        playerNameLabel.setText(Player.getName());
+
+        wordScore = Player.getScore();
+        wordsCorrectCountLabel.setText(String.valueOf(wordScore));
+
+        for(JLabel fallingLabel: fallingLabels) {
+            fallingLabel.setText("");
+            fallingLabel.setBounds(350, -20, 100, 25);
+        }
+        wordEchoLabel.setText("");
     }
 
 }
