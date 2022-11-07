@@ -1,6 +1,7 @@
 package com.word.app;
 
 import com.apps.util.Prompter;
+import com.word.Difficulty;
 
 import java.util.Scanner;
 
@@ -12,31 +13,31 @@ class Menu {
 
     // TODO: Remove once com.word.Difficult is renamed to com.word.Difficulty and once it is public.
     // TODO: ask Jay how to test, or if it's even necessary to test.
-    private enum Difficulty {
-        EASY("E"),
-        MEDIUM("M"),
-        HARD("H");
-
-        private final String alias;
-
-        Difficulty(String alias) {
-            this.alias = alias;
-        }
-
-        public String getAlias() {
-            return alias;
-        }
-
-        public static Difficulty fromAlias(String s) {
-            if (EASY.alias.equalsIgnoreCase(s))
-                return EASY;
-            else if ((MEDIUM.alias.equalsIgnoreCase(s)))
-                return MEDIUM;
-            else if (HARD.alias.equalsIgnoreCase(s))
-                return HARD;
-            return null;
-        }
-    }
+//    private enum Difficulty {
+//        EASY("E"),
+//        MEDIUM("M"),
+//        HARD("H");
+//
+//        private final String alias;
+//
+//        Difficulty(String alias) {
+//            this.alias = alias;
+//        }
+//
+//        public String getAlias() {
+//            return alias;
+//        }
+//
+//        public static Difficulty fromAlias(String s) {
+//            if (EASY.alias.equalsIgnoreCase(s))
+//                return EASY;
+//            else if ((MEDIUM.alias.equalsIgnoreCase(s)))
+//                return MEDIUM;
+//            else if (HARD.alias.equalsIgnoreCase(s))
+//                return HARD;
+//            return null;
+//        }
+//    }
 
     private Menu() {}
 
