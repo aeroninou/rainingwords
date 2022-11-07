@@ -30,7 +30,7 @@ public class Game {
         String playerName = Menu.promptForName();
         Player player = new Player(playerName);
         // Request difficulty
-        Difficulty difficulty = Difficulty.EASY;
+        Difficulty difficulty = Menu.promptForDifficulty();
         List<String> remainingWords = difficulty.getWords();
         // Get some words from the difficulty list (not all of them probably.. maybe 20 out of the 200 at a time)
         // Create game window with the player name, and the words that we made above.
@@ -41,7 +41,7 @@ public class Game {
             while (!remainingWords.isEmpty())
                 ; // keeep running game
             // set the player score
-            hideGameWindow(window);
+            hideGameWindow();
             displayStatistics();
             isPlaying = Menu.promptToContinue();
         }
@@ -49,19 +49,12 @@ public class Game {
 
     private void showGameWindow(GameWindow window) {
         // setVisible true
-        // make sure labels are at the top
-        // make sure the player name is correct
-        // make sure that the score is 0, or the previous score that the player got.
-        // make sure the echo label is also clear
-        // window.reset();
+        window.setVisible(true);
+        //show window and set all fields
+        window.showWindow();
     }
 
-    private void hideGameWindow(GameWindow window) {
-        // Stop showing the window, but keep it running.
-        window.setVisible(false);
-
-        // Resets all UI components, such as clearing label text and score.
-        window.reset();
+    private void hideGameWindow() {
     }
 
     private void displayStatistics() {
