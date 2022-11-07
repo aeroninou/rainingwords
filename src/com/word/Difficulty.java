@@ -6,57 +6,41 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
-/**
- * TODO: vlad
- *  - smart enum
- *  create the 3 files
- * */
+
 public enum Difficulty {
 
     EASY("easy.txt"),
-    MEDIUM("medium"),
-    HARD("hard");
+    MEDIUM("medium.txt"),
+    HARD("hard.txt");
 
     //advance enum use constructor and getter:
+
     //Fields
-    private final String fileName;
+    private List<String> words;
 
     //Constructor
-    Difficulty(String fileName){
-        this.fileName = fileName;
-    }
+    Difficulty(String fileName) {
 
-    /**
-     * TODO:
-     * read the file File.readAllLines
-     * returns string read in into Word objects
-     *  populate list of words
-     **/
+        Path path = Paths.get(fileName);
 
-    //Method
-
-
-    //ACCESSOR:
-    public String getFileName() {
-        return fileName;
-    }
-
-    public static void main(String[] args)
-    {
-//        Path path = Paths.get("easy.txt");
-//        Path path = Paths.get("medium.txt");
-        Path path = Paths.get("hard.txt");
-
-        String content = null;
         try {
-            List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-            content = String.join(System.lineSeparator(), lines);
+            words = Files.lines(path, StandardCharsets.UTF_8)
+                    .map(String::toLowerCase) //.map(word -> word.toLowerCase())
+                    .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        System.out.println(content);
+    //ACCESSOR:
+    public List<String> getWords() {
+        return words;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Difficulty.EASY.getWords());
     }
 
 }
