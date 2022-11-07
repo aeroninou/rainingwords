@@ -30,7 +30,7 @@ public class Game {
         String playerName = Menu.promptForName();
         Player player = new Player(playerName);
         // Request difficulty
-        Difficulty difficulty = Difficulty.EASY;
+        Difficulty difficulty = Menu.promptForDifficulty();
         List<String> remainingWords = difficulty.getWords();
         // Get some words from the difficulty list (not all of them probably.. maybe 20 out of the 200 at a time)
         // Create game window with the player name, and the words that we made above.
