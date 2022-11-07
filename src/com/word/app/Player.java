@@ -5,11 +5,11 @@ public class Player {
     private static int score;
     private static String name;
     private int idCount;
-    private int id;
+    private final int id;
 
     public Player(String name) {
         setName(name);
-        this.score = 0;
+        Player.score = 0;
         id = idCount++;
     }
 
@@ -22,7 +22,7 @@ public class Player {
     }
 
     public void setName(String name) {
-        Player.name = name;
+        this.name = name;
     }
 
     public static int getScore() {
