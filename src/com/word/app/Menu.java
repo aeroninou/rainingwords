@@ -67,7 +67,9 @@ class Menu {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Console.pause(1000); // pause welcome message for 10 seconds
+        System.out.println("Created by Aeron, Sergio, and Vlad");
+        System.out.println("© Copyright");
+        Console.pause(3000); // pause welcome message for 10 seconds
         Console.clear(); // clear welcome message after 10 seconds
     }
 
