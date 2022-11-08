@@ -23,16 +23,27 @@ class FallWordsThread extends Thread {
 
     @Override
     public void run() {
-        while(!wordLabel.getText().equals("")) {
-            int yCoordinate = wordLabel.getBounds().y;
-            int xCoordinate = wordLabel.getBounds().x;
-            while( yCoordinate < DISAPPEAR_Y_CUTOFF && !wordLabel.getText().equals("")) {
+        // See if there are any other words to make fall.
+        while (!remainingWords.isEmpty()) {
+            String nextWord = remainingWords.remove(0);
+            wordLabel.setText(nextWord);
+            // Move it back to the top
+            wordLabel.setLocation(350, -20);
+            // Make the word "fall".
+            // If the text is blank, it means the player matched it or the word went out of bounds.
+            int yCoordinate;
+            int xCoordinate;
+            do {
+                xCoordinate = wordLabel.getBounds().x;
+                yCoordinate = wordLabel.getBounds().y;
+
                 // Figure out new position.
                 xCoordinate = getNewXCoordinate(xCoordinate);
+                // Recalculate x position so the label can be seen.
                 if (xCoordinate < 5 || xCoordinate > 775)
                     continue;
                 yCoordinate += 20;
-                wordLabel.setBounds(xCoordinate, yCoordinate, 100, 25);
+                wordLabel.setLocation(xCoordinate, yCoordinate);
 
                 // See if color needs to change.
                 Color color;
@@ -43,22 +54,9 @@ class FallWordsThread extends Thread {
                 else
                     color = Color.RED;
                 wordLabel.setForeground(color);
-
                 pause(300);
-            }
-            // Make word disappear...
-            wordLabel.setText("");
-            // See if there are any other words to make fall
-            if (!remainingWords.isEmpty()) {
-                // Set the text to the next word.
-                String nextWord = remainingWords.remove(0); // [aeron, sergio, vlad], so remove aeron
-                wordLabel.setText(nextWord);
-
-                // Move it back to the top
-                wordLabel.setBounds(350, -20, 100, 25);
-            }
+            } while( yCoordinate < DISAPPEAR_Y_CUTOFF && !wordLabel.getText().equals(""));
         }
-
     }
 
     private void pause(long pause) {

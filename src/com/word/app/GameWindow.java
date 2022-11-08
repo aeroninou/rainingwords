@@ -160,7 +160,7 @@ public class GameWindow extends JFrame {
         // Clear text on falling labels and bring them back to the top.
         for(JLabel fallingLabel: fallingLabels) {
             fallingLabel.setText("");
-            fallingLabel.setBounds(350, -20, 100, 25);
+            fallingLabel.setLocation(350, -20);
         }
 
         // Clear the echo label.
@@ -173,7 +173,7 @@ public class GameWindow extends JFrame {
             wordInputField.requestFocus();
             for (JLabel wordLabel: fallingLabels) {
                 wordLabel.setText(wordLabel.getText());
-                wordLabel.setBounds(350, -20, 100, 25);
+                wordLabel.setLocation(350, -20);
                 new FallWordsThread(remainingWords, wordLabel).start();
             }
             // Hide the start button
