@@ -1,6 +1,8 @@
 package com.word.app;
 
 import com.word.Difficulty;
+import com.word.Option;
+import com.word.Player;
 
 import javax.swing.*;
 import java.util.Collection;
@@ -15,14 +17,14 @@ public class Game {
 
     public void run() {
         Menu.welcome();
-        Menu.Option option;
+        Option option;
         do {
             option = Menu.promptForOption();
-            if (option == Menu.Option.PLAY)
+            if (option == Option.PLAY)
                 startGame();
 //            else if (option == Menu.Option.VIEW_HISTORY)
 //                startViewHistory();
-        } while (option != Menu.Option.QUIT);
+        } while (option != Option.QUIT);
         Menu.displayQuitMessage();
     }
 

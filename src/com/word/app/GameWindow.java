@@ -1,5 +1,7 @@
 package com.word.app;
 
+import com.word.Player;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;

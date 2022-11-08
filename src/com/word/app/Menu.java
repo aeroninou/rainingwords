@@ -3,13 +3,11 @@ package com.word.app;
 import com.apps.util.Console;
 import com.apps.util.Prompter;
 import com.word.Difficulty;
+import com.word.Option;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -21,11 +19,6 @@ class Menu {
     private static String banner;
 
 
-    enum Option {
-        PLAY,
-//        VIEW_HISTORY,
-        QUIT
-    }
     private static final Prompter prompter = new Prompter(new Scanner(System.in));
 
     // TODO: Remove once com.word.Difficult is renamed to com.word.Difficulty and once it is public.

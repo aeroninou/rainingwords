@@ -1,5 +1,6 @@
 package com.word.util;
 
+import com.word.Color;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

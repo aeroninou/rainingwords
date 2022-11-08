@@ -1,4 +1,4 @@
-package com.word.util;
+package com.word;
 
 class Clock {
 

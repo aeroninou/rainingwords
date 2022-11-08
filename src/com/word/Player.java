@@ -1,4 +1,4 @@
-package com.word.app;
+package com.word;
 
 public class Player {
 

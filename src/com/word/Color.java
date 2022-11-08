@@ -1,4 +1,4 @@
-package com.word.util;
+package com.word;
 
 /**
  * Convenient enum for creating text with different font and background colors.
