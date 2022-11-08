@@ -68,6 +68,7 @@ public class Game {
             displayStatistics();
             isPlaying = Menu.promptToContinue();
         }
+        window.close();
     }
 
     private void pause(long pauseDuration) {
@@ -79,6 +80,8 @@ public class Game {
     }
 
     private boolean someLabelHasText(Collection<JLabel> fallingLabels) {
+        // TODO: Aeron, unfortunately this only checks if the collection has labels, which it always has 3
+        // Instead, you wish to check if one of the 3 labels has text in it, meaning it isn't blank or empty.
         if (!fallingLabels.isEmpty()){
             return true;
         }
