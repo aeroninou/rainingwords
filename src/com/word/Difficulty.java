@@ -15,6 +15,8 @@ public enum Difficulty {
     MEDIUM("medium.txt", "M"),
     HARD("hard.txt", "H");
 
+    public static final String CONF_PATH = "conf";
+
     //advance enum use constructor and getter:
 
     //Fields
@@ -25,7 +27,7 @@ public enum Difficulty {
     Difficulty(String fileName, String alias) {
         this.alias = alias;
 
-        Path path = Paths.get(fileName);
+        Path path = Paths.get(CONF_PATH, fileName);
 
         try {
             words = Files.lines(path, StandardCharsets.UTF_8)
