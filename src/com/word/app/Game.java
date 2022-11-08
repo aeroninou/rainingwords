@@ -20,8 +20,8 @@ public class Game {
             option = Menu.promptForOption();
             if (option == Menu.Option.PLAY)
                 startGame();
-            else if (option == Menu.Option.VIEW_HISTORY)
-                startViewHistory();
+//            else if (option == Menu.Option.VIEW_HISTORY)
+//                startViewHistory();
         } while (option != Menu.Option.QUIT);
         Menu.displayQuitMessage();
     }

@@ -18,11 +18,12 @@ import java.util.Scanner;
 class Menu {
     private static final String BANNER_PATH = "welcomebanner.txt";
     private static final String EXIT_BANNER_PATH = "exitbanner.txt";
+    private static String banner;
 
 
     enum Option {
         PLAY,
-        VIEW_HISTORY,
+//        VIEW_HISTORY,
         QUIT
     }
     private static final Prompter prompter = new Prompter(new Scanner(System.in));
@@ -35,16 +36,23 @@ class Menu {
     }
 
     public static String promptForName() {
-        return prompter.prompt("\nPlayer Name: ", "[A-Za-z]{2,16}", "must be between 2 and 16 letters\n"); //regex upper and lower [A-Za-z] and take 2 - 16 characters {2,16}
+        Console.clear();
+        System.out.println(banner);
+        String answer = prompter.prompt("\nPlayer Name: ", "[A-Za-z]{2,16}", "must be between 2 and 16 letters\n");
+        return answer;
     }
 
     public static boolean promptToContinue() {
+        Console.clear();
+        System.out.println(banner);
         // Case-insensitive.
         String answer = prompter.prompt("\nContinue? Y/N: ", "(?i)(Y|N)", "");
         return answer.equalsIgnoreCase("Y");
     }
 
     public static Difficulty promptForDifficulty() {
+        Console.clear();
+        System.out.println(banner);
         StringBuilder text = new StringBuilder("\nChoose your Difficulty:\n");
 
 
@@ -55,6 +63,7 @@ class Menu {
         text.append("> ");
 
         String answer = prompter.prompt(text.toString(),  "(?i)(E|M|H)","invalid difficulty please try again\n");
+
         return Difficulty.fromAlias(answer);
     }
 
@@ -62,8 +71,8 @@ class Menu {
         Console.clear(); // to clear the console to display the welcome banner
 
         try {
-            String welcomeBanner = Files.readString(Path.of(Difficulty.CONF_PATH,BANNER_PATH));
-            System.out.println(welcomeBanner);
+            banner = Files.readString(Path.of(Difficulty.CONF_PATH,BANNER_PATH));
+            System.out.println(banner);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,7 +97,8 @@ class Menu {
 
     public static Option promptForOption() {
         Console.clear();
-        StringBuilder text = new StringBuilder("\nPPlease choose one of the followings:\n");
+        System.out.println(banner);
+        StringBuilder text = new StringBuilder("\nPlease choose one of the followings:\n");
         //case-insensitive:
 //        StringBuilder regex = new StringBuilder("(?i)(");
 
@@ -98,14 +108,14 @@ class Menu {
         }
         text.append("> ");
 //        regex.append(")");
-        String answer = prompter.prompt(text.toString(), "(?i)(P|V|Q)", "Error... ").toUpperCase(); //(?i)(PLAY|VIEW_HISTORY|QUIT)
+        String answer = prompter.prompt(text.toString(), "(?i)(P|Q)", "Error... ").toUpperCase(); //(?i)(PLAY|VIEW_HISTORY|QUIT)
         Option option = null;
         if("P".equals(answer)){
             option = Option.PLAY;
         }
-        else if("V".equals(answer)){
-            option = Option.VIEW_HISTORY;
-        }
+//        else if("V".equals(answer)){
+//            option = Option.VIEW_HISTORY;
+//        }
         else if ("Q".equals(answer)){
             option = Option.QUIT;
         }
