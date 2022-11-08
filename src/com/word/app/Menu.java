@@ -16,6 +16,8 @@ import java.util.Scanner;
  * Static utility class for prompting user for input.
  */
 class Menu {
+    private static final String BANNER_PATH = "welcomebanner.txt";
+
     enum Option {
         PLAY,
         VIEW_HISTORY,
@@ -60,7 +62,7 @@ class Menu {
         Console.clear(); // to clear the console to display the welcome banner
 
         try {
-            String welcomeBanner = Files.readString(Path.of("welcomebanner.txt"));
+            String welcomeBanner = Files.readString(Path.of(Difficulty.CONF_PATH,BANNER_PATH));
             System.out.println(welcomeBanner);
         } catch (IOException e) {
             e.printStackTrace();
