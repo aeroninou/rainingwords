@@ -68,6 +68,7 @@ public class Game {
             displayStatistics();
             isPlaying = Menu.promptToContinue();
         }
+        Menu.displayQuitMessage();
         window.close();
     }
 
