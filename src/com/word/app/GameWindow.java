@@ -56,6 +56,10 @@ public class GameWindow extends JFrame {
         this.remainingWords = new ArrayList<>(words);
     }
 
+    public boolean hasWordsRemaining(){
+        return !remainingWords.isEmpty();
+    }
+
     public Rectangle getWordFallingBounds(){
         return wordFallingArea.getBounds();
     }
@@ -106,7 +110,7 @@ public class GameWindow extends JFrame {
         wordInputField.setFont(font);
         wordInputField.addActionListener(new WordInputFieldListener());
         wordEchoLabel.setFont(font);
-        wordEchoLabel.setText("");
+        wordEchoLabel.setText(" ");
         startButton.setFont(new Font("Arial", Font.BOLD, 18));
         startButton.addActionListener(new StartButtonListener());
 
@@ -137,16 +141,15 @@ public class GameWindow extends JFrame {
     }
 
     public void showWindow(){
-
         playerNameLabel.setText(Player.getName());
         wordScore = Player.getScore();
         wordsCorrectCountLabel.setText(String.valueOf(wordScore));
 
-        for(JLabel fallingLabel: fallingLabels) {
-            fallingLabel.setText("");
-            getWordFallingBounds();
-        }
-        wordEchoLabel.setText("");
+//        for(JLabel fallingLabel: fallingLabels) {
+//            fallingLabel.setText("");
+//            getWordFallingBounds();
+//        }
+        wordEchoLabel.setText(" ");
     }
 
     public void reset() {
@@ -161,7 +164,7 @@ public class GameWindow extends JFrame {
         }
 
         // Clear the echo label.
-        wordEchoLabel.setText("");
+        wordEchoLabel.setText(" ");
     }
 
     private class StartButtonListener implements ActionListener {
@@ -173,6 +176,9 @@ public class GameWindow extends JFrame {
                 wordLabel.setBounds(350, -20, 100, 25);
                 new FallWordsThread(remainingWords, wordLabel).start();
             }
+            // Hide the start button
+            JButton button = (JButton) e.getSource();
+            button.setVisible(false);
         }
 
     }

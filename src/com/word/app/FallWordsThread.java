@@ -21,8 +21,6 @@ class FallWordsThread extends Thread {
         this.wordLabel = wordLabel;
     }
 
-    // hasWordsLeft?
-
     @Override
     public void run() {
         while(!wordLabel.getText().equals("")) {
