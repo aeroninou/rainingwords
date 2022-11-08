@@ -35,20 +35,17 @@ class Menu {
     }
 
     public static String promptForName() {
-        Console.clear();
-        return prompter.prompt("Player Name: ", "[A-Za-z]{2,16}", "must be between 2 and 16 letters\n"); //regex upper and lower [A-Za-z] and take 2 - 16 characters {2,16}
+        return prompter.prompt("\nPlayer Name: ", "[A-Za-z]{2,16}", "must be between 2 and 16 letters\n"); //regex upper and lower [A-Za-z] and take 2 - 16 characters {2,16}
     }
 
     public static boolean promptToContinue() {
-        Console.clear();
         // Case-insensitive.
-        String answer = prompter.prompt("Continue? Y/N: ", "(?i)(Y|N)", "");
+        String answer = prompter.prompt("\nContinue? Y/N: ", "(?i)(Y|N)", "");
         return answer.equalsIgnoreCase("Y");
     }
 
     public static Difficulty promptForDifficulty() {
-        Console.clear();
-        StringBuilder text = new StringBuilder("Choose your Difficulty:\n");
+        StringBuilder text = new StringBuilder("\nChoose your Difficulty:\n");
 
 
         for (Difficulty difficulty : Difficulty.values()) {
@@ -91,7 +88,7 @@ class Menu {
 
     public static Option promptForOption() {
         Console.clear();
-        StringBuilder text = new StringBuilder("Please choose one of the followings:\n");
+        StringBuilder text = new StringBuilder("\nPPlease choose one of the followings:\n");
         //case-insensitive:
 //        StringBuilder regex = new StringBuilder("(?i)(");
 
