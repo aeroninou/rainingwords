@@ -7,6 +7,7 @@ import com.word.Difficulty;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -58,19 +59,30 @@ class Menu {
         }
         Console.pause(2000); // pause welcome message for 10 seconds
         Console.clear(); // clear welcome message after 10 seconds
+    }
 
+    public static Game.Option promptForOption(){
+        StringBuilder text = new StringBuilder("Please choose one of the followings:\n");
+        //case-insensitive:
+        StringBuilder regex = new StringBuilder("(?i)(");
+
+        for(Game.Option option : Game.Option.values()){
+            text.append(String.format("[%s] %s\n", option, option));
+            regex.append(option).append("|");
+        }
+        text.append("> ");
+        regex.append(")");
+        String answer = prompter.prompt(text.toString(), regex.toString(), "Error... "); //(?i)(PLAY|VIEW_HISTORY|QUIT)
+
+        return Game.Option.valueOf(answer.toUpperCase()); // to convert what user enter into an Enum
 
     }
 
     public static void main(String[] args) {
-        Menu.welcome();
 
-        String name = Menu.promptForName();
-        System.out.println(name);
-        boolean continuePrompt = Menu.promptToContinue();
-        System.out.println(continuePrompt);
-        Difficulty promptDiff = Menu.promptForDifficulty();
-        System.out.println(promptDiff);
+        Game.Option option = Menu.promptForOption();
+        System.out.println(option);
+
 
 
 
