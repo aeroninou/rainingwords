@@ -57,7 +57,7 @@ class Menu {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Console.pause(2000); // pause welcome message for 10 seconds
+        Console.pause(1000); // pause welcome message for 10 seconds
         Console.clear(); // clear welcome message after 10 seconds
     }
 
@@ -80,8 +80,10 @@ class Menu {
 
     public static void main(String[] args) {
 
-        Game.Option option = Menu.promptForOption();
-        System.out.println(option);
+//        Game.Option option = Menu.promptForOption();
+//        System.out.println(option);
+       Difficulty difficulty = promptForDifficulty();
+        System.out.println(difficulty);
 
 
 
