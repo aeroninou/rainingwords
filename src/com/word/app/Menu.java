@@ -7,7 +7,9 @@ import com.word.Difficulty;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -92,23 +94,5 @@ class Menu {
         return option;
 
     }
-
-    public static void main(String[] args) {
-
-        Option option = Menu.promptForOption();
-        System.out.println(option);
-
-//        Difficulty difficulty = promptForDifficulty();
-//        System.out.println(difficulty);
-
-//        String name = promptForName();
-//        System.out.println(name);
-
-//        boolean promptContinue = promptToContinue();
-//        System.out.println(promptContinue);
-
-
-    }
-
 
 }
