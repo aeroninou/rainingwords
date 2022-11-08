@@ -14,6 +14,11 @@ import java.util.Scanner;
  * Static utility class for prompting user for input.
  */
 class Menu {
+    enum Option {
+        PLAY,
+        VIEW_HISTORY,
+        QUIT
+    }
     private static final Prompter prompter = new Prompter(new Scanner(System.in));
 
     // TODO: Remove once com.word.Difficult is renamed to com.word.Difficulty and once it is public.
@@ -24,7 +29,7 @@ class Menu {
     }
 
     public static String promptForName() {
-        return prompter.prompt("Player Name: ");
+        return prompter.prompt("Player Name: ", "[A-Za-z]{2,16}", "must be between 2 and 16 letters\n"); //regex upper and lower [A-Za-z] and take 2 - 16 characters {2,16}
     }
 
     public static boolean promptToContinue() {
@@ -36,19 +41,20 @@ class Menu {
     public static Difficulty promptForDifficulty() {
         StringBuilder text = new StringBuilder("Choose your Difficulty:\n");
         // Case-insensitive.
-        StringBuilder regex = new StringBuilder("(?i)(");
+//        StringBuilder regex = new StringBuilder("(?i)(");
 
         for (Difficulty difficulty : Difficulty.values()) {
             text.append(String.format("[%s] %s\n", difficulty.getAlias(), difficulty));
-            regex.append(difficulty.getAlias()).append("|");
+//            regex.append(difficulty.getAlias()).append("|");
         }
         text.append("> ");
-        regex.append(")");
-        String answer = prompter.prompt(text.toString(), regex.toString(), "");
+//        regex.append(")");
+//        System.out.println(regex); //(?i)(E|M|H|)
+        String answer = prompter.prompt(text.toString(),  "(?i)(E|M|H)","invalid difficulty please try again\n");
         return Difficulty.fromAlias(answer);
     }
 
-    public static void welcome(){
+    public static void welcome() {
         Console.clear(); // to clear the console to display the welcome banner
 
         try {
@@ -61,31 +67,45 @@ class Menu {
         Console.clear(); // clear welcome message after 10 seconds
     }
 
-    public static Game.Option promptForOption(){
+    public static Option promptForOption() {
         StringBuilder text = new StringBuilder("Please choose one of the followings:\n");
         //case-insensitive:
-        StringBuilder regex = new StringBuilder("(?i)(");
+//        StringBuilder regex = new StringBuilder("(?i)(");
 
-        for(Game.Option option : Game.Option.values()){
-            text.append(String.format("[%s] %s\n", option, option));
-            regex.append(option).append("|");
+        for (Option option : Option.values()) {
+            text.append(String.format("[%s] %s\n", option.toString().charAt(0), option));
+//            regex.append(option).append("|");
         }
         text.append("> ");
-        regex.append(")");
-        String answer = prompter.prompt(text.toString(), regex.toString(), "Error... "); //(?i)(PLAY|VIEW_HISTORY|QUIT)
-
-        return Game.Option.valueOf(answer.toUpperCase()); // to convert what user enter into an Enum
+//        regex.append(")");
+        String answer = prompter.prompt(text.toString(), "(?i)(P|V|Q)", "Error... ").toUpperCase(); //(?i)(PLAY|VIEW_HISTORY|QUIT)
+        Option option = null;
+        if("P".equals(answer)){
+            option = Option.PLAY;
+        }
+        else if("V".equals(answer)){
+            option = Option.VIEW_HISTORY;
+        }
+        else if ("Q".equals(answer)){
+            option = Option.QUIT;
+        }
+        return option;
 
     }
 
     public static void main(String[] args) {
 
-//        Game.Option option = Menu.promptForOption();
-//        System.out.println(option);
-       Difficulty difficulty = promptForDifficulty();
-        System.out.println(difficulty);
+        Option option = Menu.promptForOption();
+        System.out.println(option);
 
+//        Difficulty difficulty = promptForDifficulty();
+//        System.out.println(difficulty);
 
+//        String name = promptForName();
+//        System.out.println(name);
+
+//        boolean promptContinue = promptToContinue();
+//        System.out.println(promptContinue);
 
 
     }

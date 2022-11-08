@@ -13,14 +13,14 @@ public class Game {
 
     public void run() {
         Menu.welcome();
-        Option option;
+        Menu.Option option;
         do {
             option = Menu.promptForOption();
-            if (option == Option.PLAY)
+            if (option == Menu.Option.PLAY)
                 startGame();
-            else if (option == Option.VIEW_HISTORY)
+            else if (option == Menu.Option.VIEW_HISTORY)
                 startViewHistory();
-        } while (option != Option.QUIT);
+        } while (option != Menu.Option.QUIT);
         // Menu.displayQuitMessage();
     }
 
@@ -110,7 +110,4 @@ public class Game {
         System.out.println("Game match history");
     }
 
-    enum Option {
-        PLAY, VIEW_HISTORY, QUIT
-    }
 }
