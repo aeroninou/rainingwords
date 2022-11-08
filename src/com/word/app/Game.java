@@ -24,8 +24,8 @@ public class Game {
                 startViewHistory();
         } while(option != Option.QUIT);
         // Menu.displayQuitMessage();
-    }
-    private void startGame() {
+   }
+    public void startGame() {
         // Request player name
         String playerName = Menu.promptForName();
         Player player = new Player(playerName);
@@ -41,7 +41,7 @@ public class Game {
             while (!remainingWords.isEmpty())
                 ; // keeep running game
             // set the player score
-            hideGameWindow();
+            hideGameWindow(window);
             displayStatistics();
             isPlaying = Menu.promptToContinue();
         }
@@ -50,11 +50,15 @@ public class Game {
     private void showGameWindow(GameWindow window) {
         // setVisible true
         window.setVisible(true);
-        //show window and set all fields
         window.showWindow();
     }
 
-    private void hideGameWindow() {
+    private void hideGameWindow(GameWindow window) {
+        // Stop showing the window, but keep it running.
+        window.setVisible(false);
+
+        // Resets all UI components, such as clearing label text and score.
+        window.reset();
     }
 
     private void displayStatistics() {
