@@ -23,7 +23,7 @@ public class Game {
             else if (option == Menu.Option.VIEW_HISTORY)
                 startViewHistory();
         } while (option != Menu.Option.QUIT);
-        // Menu.displayQuitMessage();
+        Menu.displayQuitMessage();
     }
 
     public void startGame() {

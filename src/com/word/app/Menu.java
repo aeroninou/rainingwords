@@ -17,6 +17,8 @@ import java.util.Scanner;
  */
 class Menu {
     private static final String BANNER_PATH = "welcomebanner.txt";
+    private static final String EXIT_BANNER_PATH = "exitbanner.txt";
+
 
     enum Option {
         PLAY,
@@ -33,27 +35,28 @@ class Menu {
     }
 
     public static String promptForName() {
+        Console.clear();
         return prompter.prompt("Player Name: ", "[A-Za-z]{2,16}", "must be between 2 and 16 letters\n"); //regex upper and lower [A-Za-z] and take 2 - 16 characters {2,16}
     }
 
     public static boolean promptToContinue() {
+        Console.clear();
         // Case-insensitive.
         String answer = prompter.prompt("Continue? Y/N: ", "(?i)(Y|N)", "");
         return answer.equalsIgnoreCase("Y");
     }
 
     public static Difficulty promptForDifficulty() {
+        Console.clear();
         StringBuilder text = new StringBuilder("Choose your Difficulty:\n");
-        // Case-insensitive.
-//        StringBuilder regex = new StringBuilder("(?i)(");
+
 
         for (Difficulty difficulty : Difficulty.values()) {
             text.append(String.format("[%s] %s\n", difficulty.getAlias(), difficulty));
-//            regex.append(difficulty.getAlias()).append("|");
+
         }
         text.append("> ");
-//        regex.append(")");
-//        System.out.println(regex); //(?i)(E|M|H|)
+
         String answer = prompter.prompt(text.toString(),  "(?i)(E|M|H)","invalid difficulty please try again\n");
         return Difficulty.fromAlias(answer);
     }
@@ -68,12 +71,26 @@ class Menu {
             e.printStackTrace();
         }
         System.out.println("Created by Aeron, Sergio, and Vlad");
-        System.out.println("© Copyright");
         Console.pause(3000); // pause welcome message for 10 seconds
         Console.clear(); // clear welcome message after 10 seconds
     }
 
+    public static void displayQuitMessage() {
+        Console.clear(); // to clear the console to display the exit banner
+
+        try {
+            String exitBanner = Files.readString(Path.of(Difficulty.CONF_PATH,EXIT_BANNER_PATH));
+            System.out.println(exitBanner);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Console.pause(4000);
+        Console.clear();
+    }
+
+
     public static Option promptForOption() {
+        Console.clear();
         StringBuilder text = new StringBuilder("Please choose one of the followings:\n");
         //case-insensitive:
 //        StringBuilder regex = new StringBuilder("(?i)(");
@@ -96,7 +113,5 @@ class Menu {
             option = Option.QUIT;
         }
         return option;
-
     }
-
 }
