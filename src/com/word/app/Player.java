@@ -17,7 +17,7 @@ public class Player {
         return id;
     }
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 
@@ -25,11 +25,11 @@ public class Player {
         this.name = name;
     }
 
-    public static int getScore() {
+    public int getScore() {
         return score;
     }
 
-    public static void setScore(int score){
+    public void setScore(int score){
         Player.score = score;
     }
 
