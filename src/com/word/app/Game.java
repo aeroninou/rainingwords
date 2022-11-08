@@ -4,12 +4,14 @@ import com.word.Difficulty;
 
 import javax.swing.*;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Game {
     public static final String TITLE = "Raining Words";
     // At most 3 words can "fall" or "rain" at the same time.
     private static final int WORD_FALLING_COUNT = 3;
+    private static final int RANDOM_WORD_COUNT = 10;
 
     public void run() {
         Menu.welcome();
@@ -77,18 +79,23 @@ public class Game {
     }
 
     private boolean someLabelHasText(Collection<JLabel> fallingLabels) {
-        // TODO: Aeron, try to implement this so that it's true if at least one label has text
+        if (!fallingLabels.isEmpty()){
+            return true;
+        }
         // otherwise, have it return false.
         return false;
     }
 
     private List<String> pickRandomWords(Difficulty difficulty) {
-        // TODO: Aeron, try to implement this method.
         // Get the words from the difficulty
+        List<String> randomWords = difficulty.getWords();
         // Shuffle the list of words
+        Collections.shuffle(randomWords);
         // After shuffling, return a list with only, say, 10 words
+        List<String> words;
+        words = randomWords.subList(0, RANDOM_WORD_COUNT);
         // Recommend: a class constant with the number 10, and use that here.
-        return null;
+        return words;
     }
 
     private void showGameWindow(GameWindow window) {

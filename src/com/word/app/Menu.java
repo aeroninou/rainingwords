@@ -7,7 +7,9 @@ import com.word.Difficulty;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -82,11 +84,5 @@ class Menu {
 
         Game.Option option = Menu.promptForOption();
         System.out.println(option);
-
-
-
-
     }
-
-
 }
