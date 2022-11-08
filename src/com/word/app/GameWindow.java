@@ -41,7 +41,7 @@ public class GameWindow extends JFrame {
     private final JLabel typeHerePromptLabel = new JLabel("Type Here: ");
     private final JTextField wordInputField = new JTextField(15);
     private final JLabel wordEchoLabel = new JLabel("", SwingConstants.CENTER);
-    private final JButton stopButton = new JButton("Start");
+    private final JButton startButton = new JButton("Start");
 
     // Constructor(s)
     public GameWindow(Player player, java.util.List<String> words) {
@@ -107,8 +107,8 @@ public class GameWindow extends JFrame {
         wordInputField.addActionListener(new WordInputFieldListener());
         wordEchoLabel.setFont(font);
         wordEchoLabel.setText("");
-        stopButton.setFont(new Font("Arial", Font.BOLD, 18));
-        stopButton.addActionListener(new StopButtonListener());
+        startButton.setFont(new Font("Arial", Font.BOLD, 18));
+        startButton.addActionListener(new StartButtonListener());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -121,7 +121,7 @@ public class GameWindow extends JFrame {
         inputArea.add(wordEchoLabel, gbc);
         inputArea.setBorder(new EmptyBorder(10, 10, 10, 10));
         this.add(BorderLayout.SOUTH, inputArea);
-        inputArea.add(stopButton);
+        inputArea.add(startButton);
     }
 
     private void setFrameOptions() {
@@ -134,6 +134,19 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         // TODO: Window is visible as soon as it's created. May not want this to be the case...
         setVisible(true);
+    }
+
+    public void showWindow(){
+
+        playerNameLabel.setText(Player.getName());
+        wordScore = Player.getScore();
+        wordsCorrectCountLabel.setText(String.valueOf(wordScore));
+
+        for(JLabel fallingLabel: fallingLabels) {
+            fallingLabel.setText("");
+            getWordFallingBounds();
+        }
+        wordEchoLabel.setText("");
     }
 
     public void reset() {
@@ -151,7 +164,7 @@ public class GameWindow extends JFrame {
         wordEchoLabel.setText("");
     }
 
-    private class StopButtonListener implements ActionListener {
+    private class StartButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             wordInputField.requestFocus();
@@ -161,8 +174,8 @@ public class GameWindow extends JFrame {
                 new FallWordsThread(remainingWords, wordLabel).start();
             }
         }
-    }
 
+    }
     private class WordInputFieldListener implements ActionListener {
         /**
          * Runs whenever the player presses the RETURN (ENTER) key on keyboard after having typed a word.
@@ -196,20 +209,7 @@ public class GameWindow extends JFrame {
             Player.setScore(wordScore);
             wordsCorrectCountLabel.setText(String.valueOf(wordScore));
         }
-    }
 
-    public void showWindow(){
-
-        playerNameLabel.setText(Player.getName());
-
-        wordScore = Player.getScore();
-        wordsCorrectCountLabel.setText(String.valueOf(wordScore));
-
-        for(JLabel fallingLabel: fallingLabels) {
-            fallingLabel.setText("");
-            fallingLabel.setBounds(350, -20, 100, 25);
-        }
-        wordEchoLabel.setText("");
     }
 
 }
