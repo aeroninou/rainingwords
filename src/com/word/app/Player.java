@@ -2,14 +2,14 @@ package com.word.app;
 
 public class Player {
 
-    private static int score;
-    private static String name;
+    private int score;
+    private String name;
     private int idCount;
     private final int id;
 
     public Player(String name) {
         setName(name);
-        Player.score = 0;
+        this.score = 0;
         id = idCount++;
     }
 
@@ -30,7 +30,7 @@ public class Player {
     }
 
     public void setScore(int score){
-        Player.score = score;
+        this.score = score;
     }
 
     @Override
