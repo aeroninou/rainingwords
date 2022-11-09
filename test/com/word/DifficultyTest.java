@@ -1,17 +1,26 @@
 package com.word;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class DifficultyTest {
 
-    @Before
-    public void setUp() throws Exception {
+    @Test
+    public void fromAlias_returnsValidEnum_whenMatchingAliasPassed() {
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void fromAlias_returnsNull_whenGivenInvalidAlias() {
+
+    }
+
+    @Test
+    public void getWords_shouldRemainUnmodified_whenClientTriesToModify() {
+        List<String> easyWords = Difficulty.EASY.getWords();
+        easyWords.remove(0);    // should not be allowed! read-only access
+        // In the getWords, change it to return a copy of the list instead.
     }
 }

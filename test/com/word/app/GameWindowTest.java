@@ -10,7 +10,11 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class WordInputTest {
+public class GameWindowTest {
+    // Test that clicking the start button changes the "isStartClicked" to true. (Do we test the method in the StartButtonListener?)
+    // TODO: Figure out how to test the StartButtonListener
+    // TODO: Figure out how to test the WordInputListener
+/*
     private Robot robot;
 
     @Before
@@ -51,4 +55,5 @@ public class WordInputTest {
         Thread.sleep(1000);
         assertFalse(input.allWordsMatched());
     }
+ */
 }

@@ -117,9 +117,4 @@ public class Game {
         // Display score
         // Display statistics
     }
-
-    private void startViewHistory() {
-        System.out.println("Game match history");
-    }
-
 }
