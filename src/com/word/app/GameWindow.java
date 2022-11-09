@@ -23,7 +23,7 @@ public class GameWindow extends JFrame {
     private final JLabel totalWordsLeftLabel = new JLabel("Number of words left: ");
     private final JLabel totalWordsLeftCountLabel = new JLabel("0");
     private final JLabel wordsCorrectLabel = new JLabel("  Correct Words: ");
-    private final JLabel wordsCorrectCountLabel = new JLabel("0");
+    private final JLabel wordsCorrectCountLabel = new JLabel();
 
     private final JPanel wordFallingArea = new JPanel(null);
     private final Collection<JLabel> fallingLabels = new ArrayList<>();
