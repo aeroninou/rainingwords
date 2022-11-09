@@ -2,6 +2,7 @@ package com.word.app;
 
 import com.apps.util.Console;
 import com.apps.util.Prompter;
+import com.word.Color;
 import com.word.Difficulty;
 import com.word.Option;
 
@@ -39,12 +40,13 @@ class Menu {
     public static boolean promptToContinue() {
         Console.clear();
         System.out.println(banner);
+        String continueText = String.format("\nContinue? %s: ", Color.YELLOW.setFontColor("Y/N"));
         // Case-insensitive.
-        String answer = prompter.prompt("\nContinue? Y/N: ", "(?i)(Y|N)", "");
+        String answer = prompter.prompt(continueText, "(?i)(Y|N)", "");
         // if user wants to continue playing print a message asking the user find Game Window
         boolean findGameWindow   = answer.equalsIgnoreCase("Y");
         if(findGameWindow){
-            System.out.println("Please find the game window on the taskbar.....");
+            System.out.println(Color.GREEN.setFontColor("Please find the game window on the taskbar....."));
 
         }
         return findGameWindow;
@@ -57,12 +59,18 @@ class Menu {
 
 
         for (Difficulty difficulty : Difficulty.values()) {
-            text.append(String.format("[%s] %s\n", difficulty.getAlias(), difficulty));
+            String difficultyAlias = difficulty.getAlias();
+            text.append(String.format("[%s] %s\n", Color.YELLOW.setFontColor(difficultyAlias), difficulty));
 
         }
         text.append("> ");
 
         String answer = prompter.prompt(text.toString(),  "(?i)(E|M|H)","invalid difficulty please try again\n");
+
+        System.out.println(Color.GREEN.setFontColor("Please find the game window on the taskbar....."));
+
+
+
 
         return Difficulty.fromAlias(answer);
     }
@@ -103,12 +111,14 @@ class Menu {
 //        StringBuilder regex = new StringBuilder("(?i)(");
 
         for (Option option : Option.values()) {
-            text.append(String.format("[%s] %s\n", option.toString().charAt(0), option));
+            String optionLetter = String.valueOf(option.toString().charAt(0)); //convert letter to string
+            text.append(String.format("[%s] %s\n", Color.YELLOW.setFontColor(optionLetter), option));
 //            regex.append(option).append("|");
         }
         text.append("> ");
 //        regex.append(")");
         String answer = prompter.prompt(text.toString(), "(?i)(P|Q)", "Error... ").toUpperCase(); //(?i)(PLAY|VIEW_HISTORY|QUIT)
+
         Option option = null;
         if("P".equals(answer)){
             option = Option.PLAY;
@@ -119,6 +129,7 @@ class Menu {
         else if ("Q".equals(answer)){
             option = Option.QUIT;
         }
+//        String setColorFont = setFontColor();
         return option;
     }
 }

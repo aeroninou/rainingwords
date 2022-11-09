@@ -1,5 +1,7 @@
 package com.word;
 
+import java.awt.*;
+
 /**
  * Convenient enum for creating text with different font and background colors.
  */
@@ -23,6 +25,7 @@ public enum Color {
      * @return String with same text given, but displayed in colored font when printed.
      */
     public String setFontColor(String text) {
+
         return String.format("\033%s%s\033[0m", fontCode, text);
     }
 
