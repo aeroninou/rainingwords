@@ -17,12 +17,15 @@ public class GameWindow extends JFrame {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
     private int wordScore;
+    public static JLabel totalWordsLeftCountLabel = new JLabel("0");
+
 
     private final JPanel playerInfoArea = new JPanel(new GridLayout(2, 1, 15, 15));
     private final JLabel playerNameLabel = new JLabel();
     private final JPanel scoreArea = new JPanel();
+    private final JLabel totalWordsLeftLabel = new JLabel("Number of words left: ");
     private final JLabel wordsCorrectLabel = new JLabel("Correct Words: ");
-    private final JLabel wordsCorrectCountLabel = new JLabel();
+    private final JLabel wordsCorrectCountLabel = new JLabel("0");
 
     private final JPanel wordFallingArea = new JPanel(null);
     private final Collection<JLabel> fallingLabels = new ArrayList<>();
@@ -56,11 +59,15 @@ public class GameWindow extends JFrame {
         Font font = new Font(FONT_NAME, Font.BOLD, 18);
         wordsCorrectLabel.setFont(font);
         wordsCorrectCountLabel.setFont(font);
+        totalWordsLeftCountLabel.setFont(font);
+        totalWordsLeftLabel.setFont(font);
 
         playerNameLabel.setFont(font);
         playerNameLabel.setText("Player: " + player.getName());
         playerNameLabel.setForeground(Color.GRAY);
 
+        scoreArea.add(totalWordsLeftLabel);
+        scoreArea.add(totalWordsLeftCountLabel);
         scoreArea.add(wordsCorrectLabel);
         scoreArea.add(wordsCorrectCountLabel);
 
@@ -75,7 +82,7 @@ public class GameWindow extends JFrame {
         // Add labels of the falling words to the word falling area.
         for (int i = 0; i < fallingLabelCount; i++) {
             JLabel wordLabel = new JLabel("");
-            wordLabel.setBounds(350, -20, 100, 25);
+            wordLabel.setBounds(350, -20, 175, 25);
             wordLabel.setFont(font);
             fallingLabels.add(wordLabel); // Create empty labels.
             wordFallingArea.add(wordLabel);
