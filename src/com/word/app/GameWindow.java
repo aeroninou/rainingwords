@@ -13,19 +13,15 @@ import java.util.Collection;
 
 public class GameWindow extends JFrame {
 
-    private static final String FONT_NAME = "Monospaced";
+    private static final String FONT_NAME = "SansSerif";
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
-    private int wordScore;
-
 
     private final JPanel playerInfoArea = new JPanel(new GridLayout(2, 1, 15, 15));
-    private final JLabel playerNameLabel = new JLabel("Name", SwingConstants.CENTER);
+    private final JLabel playerNameLabel = new JLabel();
     private final JPanel scoreArea = new JPanel();
-    private final JLabel totalWordsLeftLabel = new JLabel("Number of words left: ");
-    private final JLabel totalWordsLeftCountLabel = new JLabel("0");
-    private final JLabel wordsCorrectLabel = new JLabel("  Correct Words: ");
-    private final JLabel wordsCorrectCountLabel = new JLabel("0");
+    private final JLabel wordsCorrectLabel = new JLabel("Correct Words: ");
+    private final JLabel wordsCorrectCountLabel = new JLabel();
 
     private final JPanel wordFallingArea = new JPanel(null);
     private final Collection<JLabel> fallingLabels = new ArrayList<>();
@@ -37,48 +33,75 @@ public class GameWindow extends JFrame {
     private final JLabel wordEchoLabel = new JLabel("", SwingConstants.CENTER);
     private final JButton startButton = new JButton("Start");
     private boolean isStartClicked;
-    private final Player player;
 
     // Constructor(s)
     public GameWindow(Player player, int fallingLabelCount) {
         super(Game.TITLE);
-        this.player = player;
         // Build the UI
         buildPlayerInfoArea(player);
-        buildPlayerScore();
         buildWordFallingArea(fallingLabelCount);
         buildWordInputArea();
         setFrameOptions();
+        System.out.println(wordFallingArea.getBounds());
     }
 
     public Rectangle getWordFallingBounds(){
         return wordFallingArea.getBounds();
     }
 
-    private void buildPlayerScore(){
+    public Collection<JLabel> getFallingLabels() {
+        return fallingLabels;
+    }
 
-        Font font = new Font(FONT_NAME, Font.BOLD, 18);
-        totalWordsLeftCountLabel.setFont(font);
-        totalWordsLeftCountLabel.setForeground(Color.CYAN);
-        totalWordsLeftLabel.setFont(font);
+    public boolean isStartClicked() {
+        return isStartClicked;
+    }
 
+    public JTextField getPlayerInput() {
+        return wordInputField;
+    }
 
-        wordsCorrectLabel.setFont(font);
-        wordsCorrectCountLabel.setFont(font);
-        wordsCorrectCountLabel.setForeground(Color.CYAN);
+    public void updateScore(int score) {
+        wordsCorrectCountLabel.setText(String.valueOf(score));
+    }
 
+    public void updateEchoLabel(String text, Color color) {
+        wordEchoLabel.setText(text);
+        wordEchoLabel.setForeground(color);
+    }
+
+    public void showWindow(Player player){
+        playerNameLabel.setText(player.getName());
+        updateScore(player.getScore());
+        updateEchoLabel(" ", Color.BLACK);
+        startButton.setVisible(true);
+        isStartClicked = false;
+    }
+
+    public void reset() {
+        // Reset the score to 0.
+        int wordScore = 0;
+        updateScore(wordScore);
+        wordsCorrectCountLabel.setText(String.valueOf(wordScore));
+        updateEchoLabel(" ", Color.BLACK);
+        // Clear the echo label.
+        wordEchoLabel.setText(" ");
+    }
+
+    public void close() {
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
     private void buildPlayerInfoArea(Player player) {
 
         Font font = new Font(FONT_NAME, Font.BOLD, 18);
+        wordsCorrectLabel.setFont(font);
+        wordsCorrectCountLabel.setFont(font);
 
         playerNameLabel.setFont(font);
         playerNameLabel.setText("Player: " + player.getName());
         playerNameLabel.setForeground(Color.GRAY);
 
-        scoreArea.add(totalWordsLeftLabel);
-        scoreArea.add(totalWordsLeftCountLabel);
         scoreArea.add(wordsCorrectLabel);
         scoreArea.add(wordsCorrectCountLabel);
 
@@ -90,11 +113,10 @@ public class GameWindow extends JFrame {
 
     private void buildWordFallingArea(int fallingLabelCount) {
         Font font = new Font(FONT_NAME, Font.BOLD, 18);
-        wordFallingArea.setBackground(Color.white);
         // Add labels of the falling words to the word falling area.
         for (int i = 0; i < fallingLabelCount; i++) {
             JLabel wordLabel = new JLabel("");
-            wordLabel.setBounds(350, -20, 175, 25);
+            wordLabel.setBounds(0, 0, 100, 25);
             wordLabel.setFont(font);
             fallingLabels.add(wordLabel); // Create empty labels.
             wordFallingArea.add(wordLabel);
@@ -105,12 +127,9 @@ public class GameWindow extends JFrame {
 
     private void buildWordInputArea() {
         Font font = new Font(FONT_NAME, Font.BOLD, 18);
-        inputArea.setBackground(Color.BLUE);
         typeHerePromptLabel.setFont(font);
-        typeHerePromptLabel.setForeground(Color.WHITE);
-        wordInputField.setForeground(Color.BLACK);
         wordInputField.setFont(font);
-        wordInputField.addActionListener(new WordInputFieldListener());
+//        wordInputField.addActionListener(new WordInputFieldListener());
         wordEchoLabel.setFont(font);
         wordEchoLabel.setText(" ");
         startButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -142,46 +161,6 @@ public class GameWindow extends JFrame {
         setVisible(true);
     }
 
-    public void showWindow(){
-        playerNameLabel.setText(player.getName());
-        wordScore = player.getScore();
-        wordsCorrectCountLabel.setText(String.valueOf(wordScore));
-        wordEchoLabel.setText(" ");
-        startButton.setVisible(true);
-        isStartClicked = false;
-    }
-
-    public void reset() {
-        // Reset the score to 0.
-        wordScore = 0;
-        wordsCorrectCountLabel.setText(String.valueOf(wordScore));
-
-        // Clear text on falling labels and bring them back to the top.
-        for(JLabel fallingLabel: fallingLabels) {
-            fallingLabel.setText("");
-            fallingLabel.setLocation(350, -20);
-        }
-
-        // Clear the echo label.
-        wordEchoLabel.setText(" ");
-    }
-
-    public Collection<JLabel> getFallingLabels() {
-        return fallingLabels;
-    }
-
-    public boolean isStartClicked() {
-        return isStartClicked;
-    }
-
-    public void updateWordsLeftCounter (int wordsLeft){
-        totalWordsLeftCountLabel.setText(String.valueOf(wordsLeft));
-    }
-
-    public void close() {
-        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-    }
-
     private class StartButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -190,42 +169,7 @@ public class GameWindow extends JFrame {
             // Hide the start button.
             startButton.setVisible(false);
         }
-
     }
 
-    private class WordInputFieldListener implements ActionListener {
-        /**
-         * Runs whenever the player presses the RETURN (ENTER) key on keyboard after having typed a word.
-         */
-        // Constructor that receives the game.
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String word = wordInputField.getText();
-            // Start by assuming wrong word was typed.
-            Color color = Color.RED;
-            // See if any falling words has matching text.
-            for (JLabel fallingLabel: fallingLabels) {
-                String fallingWord = fallingLabel.getText();
-                if (fallingWord.equals(word)){
-                    // Pass the word to the game or do it in here, let the game handle updating the list and the score.
-                    // game.updateScore(fallingWord);
-                    // TODO: for now just make the word disappear.. but this may not be what we want long term.
-                    fallingLabel.setText("");
-                    fallingLabel.setLocation(350, -20);
-                    // Correct word, so echo the word in green to indicate they got it right.
-                    color = Color.GREEN;
-                    wordScore++;
-                    break;  // since we already found a matching word, we exit loop.
-                }
-            }
-            // Always reset input field after user has pressed enter.
-            wordInputField.setText("");
-            // Echo word in green if correct, or red if incorrect.
-            wordEchoLabel.setText(word);
-            wordEchoLabel.setForeground(color);
-            player.setScore(wordScore);
-            wordsCorrectCountLabel.setText(String.valueOf(wordScore));
-        }
-    }
 }
