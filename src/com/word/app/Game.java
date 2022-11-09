@@ -64,7 +64,7 @@ public class Game {
                     }
                      FallingWordsUpdater.updateLabelPosition(label);
                 }
-                pause(300); // Wait a bit allowing labels to fall again
+                pause(startingDifficulty.getPauseDuration()); // Wait a bit allowing labels to fall again
             }
             hideGameWindow(window);
             displayStatistics();
