@@ -15,22 +15,23 @@ public class MenuTest {
     @Test
     public void promptForName_shouldReturnNameOfUser_whenValidInputProvided() {
         // Valid user means between two and 16 characters.
-        Menu.setScannerSource("responses/responses.txt");
+        Menu.setScannerSource("responses/nameValid.txt");
         String name = Menu.promptForName();
-        assertEquals("Jay", name);
-
+        assertEquals("JAY", name);
     }
 
     @Test
     public void promptForName_shouldPromptAgain_whenInvalidInputProvided() {
-        // for example, a number is invalid.
+        Menu.setScannerSource("responses/nameInvalid.txt");
+        String name = Menu.promptForName();
+        assertEquals("AERON", name);
     }
 
     @Test
-    public void promptToContinue_shouldContinueToPromptUser_whileUserProvidedInvalidInput() {
-        Menu.setScannerSource("responses/responses.txt");
-        Boolean continuePromt = Menu.promptToContinue();
-        assertEquals(true, continuePromt);
+    public void promptToContinue_shouldContinue_whileUserProvidedValidOfY_or_yInput() {
+        Menu.setScannerSource("responses/promptToContinueValid.txt");
+        Boolean continuePrompt = Menu.promptToContinue();
+        assertEquals(true, continuePrompt);
     }
 
     @Test
@@ -45,7 +46,11 @@ public class MenuTest {
 
     @Test
     public void displayQuitMessage_shouldReadFileAndDisplayMessage_withoutIOException() {
-
+        try {
+            Menu.displayQuitMessage();
+        } catch(Exception e) {
+            fail("Should not have thrown an exception. Is it unable to read the file?");
+        }
     }
 
     @Test
