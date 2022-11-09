@@ -1,7 +1,7 @@
 package com.word.app;
 
 import com.apps.util.Prompter;
-import com.word.Option;
+import com.word.Difficulty;
 import org.junit.Test;
 
 import java.io.File;
@@ -19,6 +19,7 @@ public class MenuTest {
         Menu.setScannerSource("responses/nameValid.txt");
         String name = Menu.promptForName();
         assertEquals("JAY", name);
+
     }
 
     @Test
@@ -36,39 +37,38 @@ public class MenuTest {
     }
 
     @Test
-    public void promptForDifficulty_shouldCreateEnum_whenUserProvidesFirstLetterOfEnum() {
+    public void promptForDifficulty_shouldContinueToPrompt_whenUserProvidedInvalidInput() {
+        Menu.setScannerSource("responses/promptForDifficulty_invalidInput.txt");
+        assertEquals(Difficulty.EASY, Menu.promptForDifficulty());
+    }
 
+    @Test
+    public void promptForDifficulty_shouldCreateEnum_whenUserProvidesFirstLetterOfEnum() {
+        Menu.setScannerSource("responses/promptForDifficulty_valid.txt");
+        assertEquals(Difficulty.EASY, Menu.promptForDifficulty());
+        assertEquals(Difficulty.EASY, Menu.promptForDifficulty());
+        assertEquals(Difficulty.MEDIUM, Menu.promptForDifficulty());
+        assertEquals(Difficulty.MEDIUM, Menu.promptForDifficulty());
+        assertEquals(Difficulty.HARD, Menu.promptForDifficulty());
+        assertEquals(Difficulty.HARD, Menu.promptForDifficulty());
     }
 
     @Test
     public void welcome_shouldReadFileAndDisplayMessage_withoutIOException() {
-
-    }
-
-    @Test
-    public void displayQuitMessage_shouldReadFileAndDisplayMessage_withoutIOException() {
         try {
-            Menu.displayQuitMessage();
+            Menu.welcome();
         } catch(Exception e) {
             fail("Should not have thrown an exception. Is it unable to read the file?");
         }
     }
 
     @Test
-    public void promptForOption_shouldReturnOptionEnum_whenUserProvidesValidInput() {
-        // basically when input matches the regex.
-        Menu.setScannerSource("responses/promptForOption_valid.txt");
-        assertEquals(Option.PLAY, Menu.promptForOption());
-        assertEquals(Option.PLAY, Menu.promptForOption());
-        assertEquals(Option.QUIT, Menu.promptForOption());
-        assertEquals(Option.QUIT, Menu.promptForOption());
+    public void displayQuitMessage_shouldReadFileAndDisplayMessage_withoutIOException() {
+
     }
 
     @Test
-    public void prompForOption_shouldContinueToPromptUser_whileUserProvidedInvalidInput() {
-        Menu.setScannerSource("responses/promptForOption_invalid.txt");
-        assertEquals(Option.PLAY, Menu.promptForOption());
-
+    public void promptForOption_shouldReturnOptionEnum_whenUserProvidesValidInput() {
+        // basically when input matches the regex.
     }
-
 }
