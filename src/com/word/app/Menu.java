@@ -6,6 +6,8 @@ import com.word.Color;
 import com.word.Difficulty;
 import com.word.Option;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +23,8 @@ class Menu {
     private static String banner;
 
 
-    private static final Prompter prompter = new Prompter(new Scanner(System.in));
+
+    private static Prompter prompter = new Prompter(new Scanner(System.in));
 
 
     // TODO: Remove once com.word.Difficult is renamed to com.word.Difficulty and once it is public.
@@ -29,6 +32,14 @@ class Menu {
 
 
     private Menu() {
+    }
+
+    static void setScannerSource(String filename){
+        try {
+            prompter = new Prompter(new Scanner(new File(filename)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String promptForName() {

@@ -5,6 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +55,8 @@ public enum Difficulty {
 
     //ACCESSOR:
     public List<String> getWords() {
-        return words;
+        List<String> readOnlyWords = new ArrayList<>(Collections.unmodifiableList(words));
+        return readOnlyWords;
     }
 
     public String getAlias() {

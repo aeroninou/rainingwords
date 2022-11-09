@@ -89,7 +89,6 @@ public class Game {
             }
             pause(difficulty.getPauseDuration()); // Wait a bit allowing labels to fall again
             window.updateWordsLeftCounter(wordsLeftCounter);
-
         }
     }
 
