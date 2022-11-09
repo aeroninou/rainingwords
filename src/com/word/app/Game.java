@@ -66,7 +66,7 @@ public class Game {
                     }
                      FallingWordsUpdater.updateLabelPosition(label);
                 }
-                pause(300); // Wait a bit allowing labels to fall again
+                pause(startingDifficulty.getPauseDuration()); // Wait a bit allowing labels to fall again
                 window.updateWordsLeftCounter(wordsLeftCounter);
             }
             hideGameWindow(window);
@@ -120,9 +120,4 @@ public class Game {
         // Display score
         // Display statistics
     }
-
-    private void startViewHistory() {
-        System.out.println("Game match history");
-    }
-
 }

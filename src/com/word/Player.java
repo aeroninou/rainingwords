@@ -13,10 +13,6 @@ public class Player {
         id = idCount++;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -31,14 +27,5 @@ public class Player {
 
     public void setScore(int score){
         this.score = score;
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + ": " +
-                "id=" + getId() +
-                ", name='" + getName() + '\'' +
-                ", score=" + getScore() +
-                '}';
     }
 }

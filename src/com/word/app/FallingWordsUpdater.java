@@ -50,6 +50,4 @@ class FallingWordsUpdater {
     private static boolean negative() {
         return Math.random() < MOVE_LEFT_CHANCE;
     }
-
-
 }

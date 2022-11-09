@@ -192,6 +192,7 @@ public class GameWindow extends JFrame {
         }
 
     }
+
     private class WordInputFieldListener implements ActionListener {
         /**
          * Runs whenever the player presses the RETURN (ENTER) key on keyboard after having typed a word.
