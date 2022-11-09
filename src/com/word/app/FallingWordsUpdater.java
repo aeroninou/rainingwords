@@ -14,10 +14,8 @@ class FallingWordsUpdater {
     private static final int DELTA_Y = 20;  // Fixed distance each word falls each time.
 
     public static void updateLabel(JLabel label, Rectangle bounds) {
-        if (label.getText().isBlank())  // Empty labels are not updated.
-            ; // do nothing.
-        else if (label.getBounds().y >= DISAPPEAR_Y_CUTOFF) {
-            moveBackTop(label, bounds);
+        if (label.getText().isBlank() || label.getBounds().y >= DISAPPEAR_Y_CUTOFF) {
+            moveBackTop(label, bounds); // do nothing.
         } else {
             int x = label.getBounds().x;
             do {
@@ -35,14 +33,12 @@ class FallingWordsUpdater {
                 color = Color.RED;
             label.setForeground(color);
         }
-
     }
 
-    private static void moveBackTop(JLabel label, Rectangle bounds) {
+    public static void moveBackTop(JLabel label, Rectangle bounds) {
         label.setText("");
         int centerX = bounds.x + bounds.width / 2;
         int topY = -20;
-        System.out.println(topY);
         label.setLocation(centerX, topY);
     }
 
