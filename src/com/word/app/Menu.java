@@ -21,6 +21,7 @@ class Menu {
 
     private static final Prompter prompter = new Prompter(new Scanner(System.in));
 
+
     // TODO: Remove once com.word.Difficult is renamed to com.word.Difficulty and once it is public.
     // TODO: ask Jay how to test, or if it's even necessary to test.
 
@@ -40,9 +41,13 @@ class Menu {
         System.out.println(banner);
         // Case-insensitive.
         String answer = prompter.prompt("\nContinue? Y/N: ", "(?i)(Y|N)", "");
-        // put the return answer.equalsIgnoreCase("Y"); into variable
-        //check with a if statement and it is true print a message asking the user find Game Window
-        return answer.equalsIgnoreCase("Y");
+        // if user wants to continue playing print a message asking the user find Game Window
+        boolean findGameWindow   = answer.equalsIgnoreCase("Y");
+        if(findGameWindow){
+            System.out.println("Please find the game window on the taskbar.....");
+
+        }
+        return findGameWindow;
     }
 
     public static Difficulty promptForDifficulty() {
