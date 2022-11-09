@@ -9,6 +9,7 @@ import com.word.Option;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -33,7 +34,7 @@ class Menu {
     public static String promptForName() {
         Console.clear();
         System.out.println(banner);
-        String answer = prompter.prompt("\nPlayer Name: ", "[A-Za-z]{2,16}", "must be between 2 and 16 letters\n");
+        String answer = prompt("\nPlayer Name: ", "[A-Za-z]{2,16}", "must be between 2 and 16 letters\n");
         return answer;
     }
 
@@ -42,10 +43,10 @@ class Menu {
         System.out.println(banner);
         String continueText = String.format("\nContinue? %s: ", Color.YELLOW.setFontColor("Y/N"));
         // Case-insensitive.
-        String answer = prompter.prompt(continueText, "(?i)(Y|N)", "");
+        String answer = prompt(continueText, "(?i)(Y|N)", "");
         // if user wants to continue playing print a message asking the user find Game Window
-        boolean findGameWindow   = answer.equalsIgnoreCase("Y");
-        if(findGameWindow){
+        boolean findGameWindow = answer.equalsIgnoreCase("Y");
+        if (findGameWindow) {
             System.out.println(Color.GREEN.setFontColor("Please find the game window on the taskbar....."));
 
         }
@@ -65,11 +66,9 @@ class Menu {
         }
         text.append("> ");
 
-        String answer = prompter.prompt(text.toString(),  "(?i)(E|M|H)","invalid difficulty please try again\n");
+        String answer = prompt(text.toString(), "(?i)(E|M|H)", "invalid difficulty please try again\n");
 
         System.out.println(Color.GREEN.setFontColor("Please find the game window on the taskbar....."));
-
-
 
 
         return Difficulty.fromAlias(answer);
@@ -79,7 +78,7 @@ class Menu {
         Console.clear(); // to clear the console to display the welcome banner
 
         try {
-            banner = Files.readString(Path.of(Difficulty.CONF_PATH,BANNER_PATH));
+            banner = Files.readString(Path.of(Difficulty.CONF_PATH, BANNER_PATH));
             System.out.println(banner);
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,7 +92,7 @@ class Menu {
         Console.clear(); // to clear the console to display the exit banner
 
         try {
-            String exitBanner = Files.readString(Path.of(Difficulty.CONF_PATH,EXIT_BANNER_PATH));
+            String exitBanner = Files.readString(Path.of(Difficulty.CONF_PATH, EXIT_BANNER_PATH));
             System.out.println(exitBanner);
         } catch (IOException e) {
             e.printStackTrace();
@@ -107,29 +106,33 @@ class Menu {
         Console.clear();
         System.out.println(banner);
         StringBuilder text = new StringBuilder("\nPlease choose one of the followings:\n");
-        //case-insensitive:
-//        StringBuilder regex = new StringBuilder("(?i)(");
 
         for (Option option : Option.values()) {
             String optionLetter = String.valueOf(option.toString().charAt(0)); //convert letter to string
             text.append(String.format("[%s] %s\n", Color.YELLOW.setFontColor(optionLetter), option));
-//            regex.append(option).append("|");
         }
         text.append("> ");
-//        regex.append(")");
-        String answer = prompter.prompt(text.toString(), "(?i)(P|Q)", "Error... ").toUpperCase(); //(?i)(PLAY|VIEW_HISTORY|QUIT)
+
+        String answer = prompt(text.toString(), "(?i)(P|Q)", "Error... ").toUpperCase(); //(?i)(PLAY|VIEW_HISTORY|QUIT)
 
         Option option = null;
-        if("P".equals(answer)){
+        if ("P".equals(answer)) {
             option = Option.PLAY;
-        }
-//        else if("V".equals(answer)){
-//            option = Option.VIEW_HISTORY;
-//        }
-        else if ("Q".equals(answer)){
+        } else if ("Q".equals(answer)) {
             option = Option.QUIT;
         }
-//        String setColorFont = setFontColor();
         return option;
+    }
+
+    private static String prompt(String promptMessage, String regex, String helpMessage) {
+
+        try {
+            String answer = prompter.prompt(promptMessage, regex, helpMessage).toUpperCase();
+            return answer;
+        } catch (NoSuchElementException e) {
+            displayQuitMessage();
+            System.exit(0);
+        }
+        return null;
     }
 }
