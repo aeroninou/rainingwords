@@ -1,13 +1,24 @@
 package com.word.app;
 
+import com.apps.util.Prompter;
 import org.junit.Test;
+
+import java.io.File;
+import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
 public class MenuTest {
+
+
+
     @Test
     public void promptForName_shouldReturnNameOfUser_whenValidInputProvided() {
         // Valid user means between two and 16 characters.
+        Menu.setScannerSource("responses/responses.txt");
+        String name = Menu.promptForName();
+        assertEquals("Jay", name);
+
     }
 
     @Test
@@ -17,6 +28,9 @@ public class MenuTest {
 
     @Test
     public void promptToContinue_shouldContinueToPromptUser_whileUserProvidedInvalidInput() {
+        Menu.setScannerSource("responses/responses.txt");
+        Boolean continuePromt = Menu.promptToContinue();
+        assertEquals(true, continuePromt);
     }
 
     @Test
