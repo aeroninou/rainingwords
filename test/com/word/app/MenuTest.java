@@ -16,9 +16,9 @@ public class MenuTest {
     @Test
     public void promptForName_shouldReturnNameOfUser_whenValidInputProvided() {
         // Valid user means between two and 16 characters.
-        Menu.setScannerSource("responses/responses.txt");
+        Menu.setScannerSource("responses/nameValid.txt");
         String name = Menu.promptForName();
-        assertEquals("Jay", name);
+        assertEquals("JAY", name);
 
     }
 
