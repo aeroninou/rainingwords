@@ -135,7 +135,7 @@ public class GameWindow extends JFrame {
         // Add labels of the falling words to the word falling area.
         for (int i = 0; i < fallingLabelCount; i++) {
             JLabel wordLabel = new JLabel("");
-            wordLabel.setBounds(0, 0, 100, 25);
+            wordLabel.setBounds(0, 0, 175, 25);
             wordLabel.setFont(font);
             fallingLabels.add(wordLabel); // Create empty labels.
             wordFallingArea.add(wordLabel);
@@ -180,6 +180,10 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         // TODO: Window is visible as soon as it's created. May not want this to be the case...
         setVisible(true);
+    }
+
+    public void updateWordsLeftCounter (int wordsLeft){
+        totalWordsLeftCountLabel.setText(String.valueOf(wordsLeft));
     }
 
     private class StartButtonListener implements ActionListener {
