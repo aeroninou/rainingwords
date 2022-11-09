@@ -67,7 +67,7 @@ public class Game {
                      FallingWordsUpdater.updateLabelPosition(label);
                 }
                 pause(300); // Wait a bit allowing labels to fall again
-                GameWindow.totalWordsLeftCountLabel.setText(String.valueOf(wordsLeftCounter));
+                window.updateWordsLeftCounter(wordsLeftCounter);
             }
             hideGameWindow(window);
             displayStatistics();
