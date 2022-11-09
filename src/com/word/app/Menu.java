@@ -40,6 +40,8 @@ class Menu {
         System.out.println(banner);
         // Case-insensitive.
         String answer = prompter.prompt("\nContinue? Y/N: ", "(?i)(Y|N)", "");
+        // put the return answer.equalsIgnoreCase("Y"); into variable
+        //check with a if statement and it is true print a message asking the user find Game Window
         return answer.equalsIgnoreCase("Y");
     }
 
