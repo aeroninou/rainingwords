@@ -11,9 +11,9 @@ import java.util.List;
 
 public class Game {
     public static final String TITLE = "Raining Words";
-    // At most 3 words can "fall" or "rain" at the same time.
     private static final int WORD_FALLING_COUNT = 3;
     private static final int RANDOM_WORD_COUNT = 10;
+    private static final long START_BUTTON_CHECK_PAUSE = 50;
 
     public void run() {
         Menu.welcome();
@@ -22,8 +22,6 @@ public class Game {
             option = Menu.promptForOption();
             if (option == Option.PLAY)
                 startGame();
-//            else if (option == Menu.Option.VIEW_HISTORY)
-//                startViewHistory();
         } while (option != Option.QUIT);
         Menu.displayQuitMessage();
     }
@@ -32,42 +30,34 @@ public class Game {
         String playerName = Menu.promptForName();
         Player player = new Player(playerName);
         Difficulty startingDifficulty = Menu.promptForDifficulty();
-        // Change GameWindow so that it only takes a player (not remainingWords anymore)
+        // Creates the window, but does not yet display it.
         GameWindow window = new GameWindow(player, WORD_FALLING_COUNT);
         boolean isPlaying = true;
         while (isPlaying) {
-            // Pick words according to difficulty.
+            int scoreAtStartOfRound = player.getScore();
             List<String> remainingWords = pickRandomWords(startingDifficulty);
-
-            // Get the labels whose position we will be updating.
-            java.util.Collection<JLabel> fallingLabels = window.getFallingLabels();
-
-            // Ensure player can see the JFrame window.
             showGameWindow(window);
-
             // Wait for player to click the Start button on the JFrame
             while (!window.isStartClicked()) {
-                try {
-                    Thread.sleep(50);   // Wait a bit before checking again
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                pause(START_BUTTON_CHECK_PAUSE);
             }
 
-            // Now that player has pressed start, we can start making words fall.
+            // Player clicked start, so we start making labels "rain"!
+            java.util.Collection<JLabel> fallingLabels = window.getFallingLabels();
             while(!remainingWords.isEmpty() || someLabelHasText(fallingLabels)) {
-                // See if there is an empty label to update.
                 for (JLabel label: fallingLabels) {
+                    // Update the text on labels that player matched.
                     if (label.getText().equals("") && !remainingWords.isEmpty()) {
-                        // Player matched a label, get another word
                         label.setText(remainingWords.remove(0));
                     }
-                     FallingWordsUpdater.updateLabelPosition(label);
+                    // Update label text, position, and colo.
+                    FallingWordsUpdater.updateLabel(label, window.getWordFallingBounds());
                 }
                 pause(300); // Wait a bit allowing labels to fall again
             }
+            // Round has finished, redirect them to console.
             hideGameWindow(window);
-            displayStatistics();
+            displayStatistics(player, scoreAtStartOfRound);
             isPlaying = Menu.promptToContinue();
         }
         Menu.displayQuitMessage();
@@ -77,9 +67,7 @@ public class Game {
     private void pause(long pauseDuration) {
         try {
             Thread.sleep(pauseDuration);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        } catch (InterruptedException ignored) {}
     }
 
     private boolean someLabelHasText(Collection<JLabel> fallingLabels) {
@@ -92,14 +80,10 @@ public class Game {
     }
 
     private List<String> pickRandomWords(Difficulty difficulty) {
-        // Get the words from the difficulty
         List<String> randomWords = difficulty.getWords();
-        // Shuffle the list of words
         Collections.shuffle(randomWords);
-        // After shuffling, return a list with only, say, 10 words
         List<String> words;
         words = randomWords.subList(0, RANDOM_WORD_COUNT);
-        // Recommend: a class constant with the number 10, and use that here.
         return words;
     }
 
@@ -113,8 +97,11 @@ public class Game {
         window.reset();
     }
 
-    private void displayStatistics() {
-        // Display score
-        // Display statistics
+    private void displayStatistics(Player player, int scoreAtStartOfRound) {
+        // Menu.displayScore();
+        int currentRoundWordCount = player.getScore() - scoreAtStartOfRound;
+        System.out.printf("You got %s words this round.\n", currentRoundWordCount);
+        System.out.printf("Your total score is now: %s\n", player.getScore());
     }
+
 }

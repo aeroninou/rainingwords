@@ -45,6 +45,10 @@ public class GameWindow extends JFrame {
         buildWordFallingArea(fallingLabelCount);
         buildWordInputArea();
         setFrameOptions();
+
+        System.out.println(playerInfoArea.getBounds());
+        System.out.println(wordFallingArea.getBounds());
+        System.out.println(wordInputField.getBounds());
     }
 
     public Rectangle getWordFallingBounds(){
@@ -164,7 +168,6 @@ public class GameWindow extends JFrame {
             // Hide the start button.
             startButton.setVisible(false);
         }
-
     }
 
     private class WordInputFieldListener implements ActionListener {
@@ -186,7 +189,9 @@ public class GameWindow extends JFrame {
                     // game.updateScore(fallingWord);
                     // TODO: for now just make the word disappear.. but this may not be what we want long term.
                     fallingLabel.setText("");
-                    fallingLabel.setLocation(350, -20);
+                    int centerX = wordFallingArea.getBounds().x + wordFallingArea.getBounds().width / 2;
+                    int topY = -20;
+                    fallingLabel.setLocation(centerX, topY);
                     // Correct word, so echo the word in green to indicate they got it right.
                     color = Color.GREEN;
                     wordScore++;

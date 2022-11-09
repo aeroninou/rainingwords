@@ -11,34 +11,39 @@ class FallingWordsUpdater {
     private static final int DISAPPEAR_Y_CUTOFF = 400;
     private static final int RANGE_X = 100;
     private static final double MOVE_LEFT_CHANCE = 0.5;
+    private static final int DELTA_Y = 20;  // Fixed distance each word falls each time.
 
-    public static void updateLabelPosition(JLabel label) {
-        // Do not update empty labels.
-        if (label.getText().equals(""))
-            return;
-
-        // Player missed this one; empty it and bring it back top.
-        if (label.getBounds().y >= DISAPPEAR_Y_CUTOFF) {
-            label.setText("");
-            label.setLocation(350, -20);
-            return;
+    public static void updateLabel(JLabel label, Rectangle bounds) {
+        if (label.getText().isBlank())  // Empty labels are not updated.
+            ; // do nothing.
+        else if (label.getBounds().y >= DISAPPEAR_Y_CUTOFF) {
+            moveBackTop(label, bounds);
+        } else {
+            int x = label.getBounds().x;
+            do {
+                x = getNewXCoordinate(x);
+            } while(x < 5 || x + label.getWidth() > bounds.getWidth());
+            int y = label.getBounds().y;
+            y += DELTA_Y;
+            label.setLocation(x, y);
+            Color color;
+            if (y <= GREEN_CUT_OFF)
+                color = Color.GREEN;
+            else if (y <= ORANGE_CUTOFF)
+                color = Color.ORANGE;
+            else
+                color = Color.RED;
+            label.setForeground(color);
         }
 
-        int x = label.getBounds().x;
-        do {
-            x = getNewXCoordinate(x);
-        } while(x < 5 || x > 775);
-        int y = label.getBounds().y;
-        y += 20;
-        label.setLocation(x, y);
-        Color color;
-        if (y <= GREEN_CUT_OFF)
-            color = Color.GREEN;
-        else if (y <= ORANGE_CUTOFF)
-            color = Color.ORANGE;
-        else
-            color = Color.RED;
-        label.setForeground(color);
+    }
+
+    private static void moveBackTop(JLabel label, Rectangle bounds) {
+        label.setText("");
+        int centerX = bounds.x + bounds.width / 2;
+        int topY = -20;
+        System.out.println(topY);
+        label.setLocation(centerX, topY);
     }
 
     private static int getNewXCoordinate(int xCoordinate) {
