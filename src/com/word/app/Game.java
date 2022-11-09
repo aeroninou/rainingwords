@@ -14,11 +14,11 @@ import java.util.List;
 
 public class Game {
     public static final String TITLE = "Raining Words";
-    // At most 3 words can "fall" or "rain" at the same time.
     private static final int WORD_FALLING_COUNT = 3;
     private static final int RANDOM_WORD_COUNT = 10;
     private static final long START_BUTTON_CHECK_PAUSE_DURATION = 50;
     public int wordsLeftCounter;
+
 
     GameWindow window;
     Player player;
@@ -89,6 +89,7 @@ public class Game {
             }
             pause(difficulty.getPauseDuration()); // Wait a bit allowing labels to fall again
             window.updateWordsLeftCounter(wordsLeftCounter);
+
         }
     }
 
