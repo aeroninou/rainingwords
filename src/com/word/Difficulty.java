@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public enum Difficulty {
 
-    EASY("easy.txt", "E", 500),
+    EASY("easy.txt", "E", 600),
     MEDIUM("medium.txt", "M", 400),
     HARD("hard.txt", "H", 300);
 
