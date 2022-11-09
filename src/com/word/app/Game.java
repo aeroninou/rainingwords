@@ -13,7 +13,8 @@ public class Game {
     public static final String TITLE = "Raining Words";
     // At most 3 words can "fall" or "rain" at the same time.
     private static final int WORD_FALLING_COUNT = 3;
-    private static final int RANDOM_WORD_COUNT = 10;
+    public static final int RANDOM_WORD_COUNT = 10;
+    public int wordsLeftCounter;
 
     public void run() {
         Menu.welcome();
@@ -61,10 +62,12 @@ public class Game {
                     if (label.getText().equals("") && !remainingWords.isEmpty()) {
                         // Player matched a label, get another word
                         label.setText(remainingWords.remove(0));
+                        wordsLeftCounter = remainingWords.size();
                     }
                      FallingWordsUpdater.updateLabelPosition(label);
                 }
                 pause(startingDifficulty.getPauseDuration()); // Wait a bit allowing labels to fall again
+                window.updateWordsLeftCounter(wordsLeftCounter);
             }
             hideGameWindow(window);
             displayStatistics();
