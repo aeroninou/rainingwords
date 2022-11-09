@@ -4,8 +4,8 @@ import com.word.Difficulty;
 import com.word.Option;
 import com.word.Player;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
@@ -21,6 +21,9 @@ public class Game {
     GameWindow window;
     Player player;
 
+    /**
+     * Starts the application. Allows user to play or quit.
+     */
     public void run() {
         Menu.welcome();
         Option option;
@@ -32,7 +35,14 @@ public class Game {
         Menu.displayQuitMessage();
     }
 
-    public void startGame() {
+    /**
+     * Runs if the player asked to PLAY when prompted during run().
+     *
+     * Prompts player for their name and desired difficulty.
+     * Creates a JFrame window, and does not start round until clicks start.
+     * Once round is over, player can choose to continue or not.
+     */
+    private void startGame() {
         String playerName = Menu.promptForName();
         player = new Player(playerName);
         Difficulty startingDifficulty = Menu.promptForDifficulty();
@@ -42,27 +52,12 @@ public class Game {
         boolean isPlaying = true;
         while (isPlaying) {
             int scoreAtStartOfRound = player.getScore();
-            List<String> remainingWords = pickRandomWords(startingDifficulty);
             showGameWindow(window);
-            // Wait for player to click the Start button on the JFrame
+            // Wait for player to click the Start button on the JFrame.
             while (!window.isStartClicked()) {
                 pause(START_BUTTON_CHECK_PAUSE_DURATION);
             }
-
-            // Player clicked start, so we start making labels "rain"!
-            java.util.Collection<JLabel> fallingLabels = window.getFallingLabels();
-
-            while(!remainingWords.isEmpty() || someLabelHasText(fallingLabels)) {
-                for (JLabel label: fallingLabels) {
-                    FallingWordsUpdater.updateLabel(label, window.getWordFallingBounds());
-                    // Update the text on labels that player matched.
-                    if (label.getText().equals("") && !remainingWords.isEmpty()) {
-                        label.setText(remainingWords.remove(0));
-                    }
-                }
-                pause(300); // Wait a bit allowing labels to fall again
-            }
-            // Round has finished, redirect them to console.
+            beginRound(startingDifficulty);
             hideGameWindow(window);
             displayStatistics(player, scoreAtStartOfRound);
             isPlaying = Menu.promptToContinue();
@@ -71,6 +66,33 @@ public class Game {
         window.close();
     }
 
+    /**
+     * Starts updating the game sequence, making words fall until none are left.
+     *
+     * @param difficulty Decides how fast words fall, and how difficult words are.
+     */
+    private void beginRound(Difficulty difficulty) {
+        List<String> remainingWords = pickRandomWords(difficulty);
+        // Player clicked start, so we start making labels "rain"!
+        Collection<JLabel> fallingLabels = window.getFallingLabels();
+
+        while(!remainingWords.isEmpty() || someLabelHasText(fallingLabels)) {
+            for (JLabel label: fallingLabels) {
+                FallingWordsUpdater.updateLabel(label, window.getWordFallingBounds());
+                // Update the text on labels that player matched.
+                if (label.getText().equals("") && !remainingWords.isEmpty()) {
+                    label.setText(remainingWords.remove(0));
+                }
+            }
+            pause(300); // Wait a bit allowing labels to fall again
+        }
+    }
+
+    /**
+     * Pauses execution of the game.
+     *
+     * @param pauseDuration How long to pause for.
+     */
     private void pause(long pauseDuration) {
         try {
             Thread.sleep(pauseDuration);
@@ -119,11 +141,11 @@ public class Game {
         public void actionPerformed(ActionEvent e) {
             JTextField wordInputField = (JTextField) e.getSource();
             String playerText = wordInputField.getText();
-            Color color = Color.RED;
+            java.awt.Color color = java.awt.Color.RED;
             for (JLabel label: window.getFallingLabels()) {
                 String fallingWordText = label.getText();
                 if (playerText.equals(fallingWordText)) {
-                    color = Color.GREEN;
+                    color = java.awt.Color.GREEN;
                     label.setText("");
                     // update player's score in game.
                     player.setScore(player.getScore() + 1);
