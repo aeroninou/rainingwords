@@ -11,21 +11,24 @@ import java.util.stream.Collectors;
 
 public enum Difficulty {
 
-    EASY("easy.txt", "E"),
-    MEDIUM("medium.txt", "M"),
-    HARD("hard.txt", "H");
+    EASY("easy.txt", "E", 500),
+    MEDIUM("medium.txt", "M", 400),
+    HARD("hard.txt", "H", 300);
 
     public static final String CONF_PATH = "conf";
+
 
     //advance enum use constructor and getter:
 
     //Fields
     private List<String> words;
     private final String alias;
+    private final int pauseDuration;
 
     //Constructor
-    Difficulty(String fileName, String alias) {
+    Difficulty(String fileName, String alias, int pauseDuration) {
         this.alias = alias;
+        this.pauseDuration = pauseDuration;
 
         Path path = Paths.get(CONF_PATH, fileName);
 
@@ -55,6 +58,10 @@ public enum Difficulty {
 
     public String getAlias() {
         return alias;
+    }
+
+    public int getPauseDuration() {
+        return pauseDuration;
     }
 
     public static void main(String[] args) {
