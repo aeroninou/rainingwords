@@ -92,6 +92,49 @@ public class GameWindow extends JFrame {
         dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
+    public Collection<JLabel> getFallingLabels() {
+        return fallingLabels;
+    }
+
+    public boolean isStartClicked() {
+        return isStartClicked;
+    }
+
+    public JTextField getPlayerInput() {
+        return wordInputField;
+    }
+
+    public void updateScore(int score) {
+        wordsCorrectCountLabel.setText(String.valueOf(score));
+    }
+
+    public void updateEchoLabel(String text, Color color) {
+        wordEchoLabel.setText(text);
+        wordEchoLabel.setForeground(color);
+    }
+
+    public void showWindow(Player player){
+        playerNameLabel.setText(player.getName());
+        updateScore(player.getScore());
+        updateEchoLabel(" ", Color.BLACK);
+        startButton.setVisible(true);
+        isStartClicked = false;
+    }
+
+    public void reset() {
+        // Reset the score to 0.
+        int wordScore = 0;
+        updateScore(wordScore);
+        wordsCorrectCountLabel.setText(String.valueOf(wordScore));
+        updateEchoLabel(" ", Color.BLACK);
+        // Clear the echo label.
+        wordEchoLabel.setText(" ");
+    }
+
+    public void close() {
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }
+
     private void buildPlayerInfoArea(Player player) {
 
         Font font = new Font(FONT_NAME, Font.BOLD, 18);
@@ -116,7 +159,7 @@ public class GameWindow extends JFrame {
         // Add labels of the falling words to the word falling area.
         for (int i = 0; i < fallingLabelCount; i++) {
             JLabel wordLabel = new JLabel("");
-            wordLabel.setBounds(0, 0, 100, 25);
+            wordLabel.setBounds(0, 0, 175, 25);
             wordLabel.setFont(font);
             fallingLabels.add(wordLabel); // Create empty labels.
             wordFallingArea.add(wordLabel);
@@ -129,7 +172,6 @@ public class GameWindow extends JFrame {
         Font font = new Font(FONT_NAME, Font.BOLD, 18);
         typeHerePromptLabel.setFont(font);
         wordInputField.setFont(font);
-//        wordInputField.addActionListener(new WordInputFieldListener());
         wordEchoLabel.setFont(font);
         wordEchoLabel.setText(" ");
         startButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -161,6 +203,10 @@ public class GameWindow extends JFrame {
         setVisible(true);
     }
 
+    public void updateWordsLeftCounter (int wordsLeft){
+        totalWordsLeftCountLabel.setText(String.valueOf(wordsLeft));
+    }
+
     private class StartButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -170,6 +216,4 @@ public class GameWindow extends JFrame {
             startButton.setVisible(false);
         }
     }
-
-
 }

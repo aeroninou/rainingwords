@@ -17,6 +17,8 @@ public class Game {
     private static final int WORD_FALLING_COUNT = 3;
     private static final int RANDOM_WORD_COUNT = 10;
     private static final long START_BUTTON_CHECK_PAUSE_DURATION = 50;
+    public int wordsLeftCounter;
+
 
     GameWindow window;
     Player player;
@@ -82,9 +84,12 @@ public class Game {
                 // Update the text on labels that player matched.
                 if (label.getText().equals("") && !remainingWords.isEmpty()) {
                     label.setText(remainingWords.remove(0));
+                    wordsLeftCounter = remainingWords.size();
                 }
             }
-            pause(300); // Wait a bit allowing labels to fall again
+            pause(difficulty.getPauseDuration()); // Wait a bit allowing labels to fall again
+            window.updateWordsLeftCounter(wordsLeftCounter);
+
         }
     }
 
