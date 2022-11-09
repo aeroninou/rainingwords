@@ -13,15 +13,17 @@ import java.util.Collection;
 
 public class GameWindow extends JFrame {
 
-    private static final String FONT_NAME = "SansSerif";
+    private static final String FONT_NAME = "Monospaced";
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
 
     private final JPanel playerInfoArea = new JPanel(new GridLayout(2, 1, 15, 15));
-    private final JLabel playerNameLabel = new JLabel();
+    private final JLabel playerNameLabel = new JLabel("Name", SwingConstants.CENTER);
     private final JPanel scoreArea = new JPanel();
-    private final JLabel wordsCorrectLabel = new JLabel("Correct Words: ");
-    private final JLabel wordsCorrectCountLabel = new JLabel();
+    private final JLabel totalWordsLeftLabel = new JLabel("Number of words left: ");
+    private final JLabel totalWordsLeftCountLabel = new JLabel("0");
+    private final JLabel wordsCorrectLabel = new JLabel("  Correct Words: ");
+    private final JLabel wordsCorrectCountLabel = new JLabel("0");
 
     private final JPanel wordFallingArea = new JPanel(null);
     private final Collection<JLabel> fallingLabels = new ArrayList<>();
@@ -39,14 +41,28 @@ public class GameWindow extends JFrame {
         super(Game.TITLE);
         // Build the UI
         buildPlayerInfoArea(player);
+        buildPlayerScore();
         buildWordFallingArea(fallingLabelCount);
         buildWordInputArea();
         setFrameOptions();
-        System.out.println(wordFallingArea.getBounds());
     }
 
     public Rectangle getWordFallingBounds(){
         return wordFallingArea.getBounds();
+    }
+
+    private void buildPlayerScore(){
+
+        Font font = new Font(FONT_NAME, Font.BOLD, 18);
+        totalWordsLeftCountLabel.setFont(font);
+        totalWordsLeftCountLabel.setForeground(Color.CYAN);
+        totalWordsLeftLabel.setFont(font);
+
+
+        wordsCorrectLabel.setFont(font);
+        wordsCorrectCountLabel.setFont(font);
+        wordsCorrectCountLabel.setForeground(Color.CYAN);
+
     }
 
     public Collection<JLabel> getFallingLabels() {
@@ -102,6 +118,8 @@ public class GameWindow extends JFrame {
         playerNameLabel.setText("Player: " + player.getName());
         playerNameLabel.setForeground(Color.GRAY);
 
+        scoreArea.add(totalWordsLeftLabel);
+        scoreArea.add(totalWordsLeftCountLabel);
         scoreArea.add(wordsCorrectLabel);
         scoreArea.add(wordsCorrectCountLabel);
 
@@ -113,6 +131,7 @@ public class GameWindow extends JFrame {
 
     private void buildWordFallingArea(int fallingLabelCount) {
         Font font = new Font(FONT_NAME, Font.BOLD, 18);
+        wordFallingArea.setBackground(Color.white);
         // Add labels of the falling words to the word falling area.
         for (int i = 0; i < fallingLabelCount; i++) {
             JLabel wordLabel = new JLabel("");
@@ -127,9 +146,11 @@ public class GameWindow extends JFrame {
 
     private void buildWordInputArea() {
         Font font = new Font(FONT_NAME, Font.BOLD, 18);
+        inputArea.setBackground(Color.BLUE);
         typeHerePromptLabel.setFont(font);
+        typeHerePromptLabel.setForeground(Color.WHITE);
+        wordInputField.setForeground(Color.BLACK);
         wordInputField.setFont(font);
-//        wordInputField.addActionListener(new WordInputFieldListener());
         wordEchoLabel.setFont(font);
         wordEchoLabel.setText(" ");
         startButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -170,6 +191,4 @@ public class GameWindow extends JFrame {
             startButton.setVisible(false);
         }
     }
-
-
 }
