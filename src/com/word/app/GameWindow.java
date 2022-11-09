@@ -42,6 +42,7 @@ public class GameWindow extends JFrame {
         buildWordFallingArea(fallingLabelCount);
         buildWordInputArea();
         setFrameOptions();
+        System.out.println(wordFallingArea.getBounds());
     }
 
     public Rectangle getWordFallingBounds(){
