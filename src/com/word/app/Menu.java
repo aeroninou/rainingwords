@@ -5,6 +5,7 @@ import com.apps.util.Prompter;
 import com.word.Color;
 import com.word.Difficulty;
 import com.word.Option;
+import com.word.Player;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,11 +27,6 @@ class Menu {
 
     private static Prompter prompter = new Prompter(new Scanner(System.in));
 
-
-    // TODO: Remove once com.word.Difficult is renamed to com.word.Difficulty and once it is public.
-    // TODO: ask Jay how to test, or if it's even necessary to test.
-
-
     private Menu() {
     }
 
@@ -47,6 +43,15 @@ class Menu {
         System.out.println(banner);
         String answer = prompt("\nPlayer Name: ", "[A-Za-z]{2,16}", "must be between 2 and 16 letters\n");
         return answer;
+    }
+
+    public static void displayStatistics(Player player, int scoreAtStartOfRound) {
+        Console.clear();
+        System.out.println(banner);
+        int currentRoundWordCount = player.getScore() - scoreAtStartOfRound;
+        System.out.printf("You got %s words this round.\n", currentRoundWordCount);
+        System.out.printf("Your total score is now: %s\n", player.getScore());
+        Console.pause(3000);
     }
 
     public static boolean promptToContinue() {

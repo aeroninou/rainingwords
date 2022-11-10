@@ -61,7 +61,7 @@ public class Game {
             }
             beginRound(startingDifficulty);
             hideGameWindow(window);
-            displayStatistics(player, scoreAtStartOfRound);
+            Menu.displayStatistics(player, scoreAtStartOfRound);
             isPlaying = Menu.promptToContinue();
         }
         Menu.displayQuitMessage();
@@ -128,13 +128,6 @@ public class Game {
     private void hideGameWindow(GameWindow window) {
         window.setVisible(false);
         window.reset();
-    }
-
-    private void displayStatistics(Player player, int scoreAtStartOfRound) {
-        // Menu.displayScore();
-        int currentRoundWordCount = player.getScore() - scoreAtStartOfRound;
-        System.out.printf("You got %s words this round.\n", currentRoundWordCount);
-        System.out.printf("Your total score is now: %s\n", player.getScore());
     }
 
     private class WordInputFieldListener implements ActionListener {
