@@ -1,11 +1,8 @@
 package com.word.app;
 
-import com.apps.util.Prompter;
 import com.word.Difficulty;
+import com.word.Option;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
@@ -27,6 +24,13 @@ public class MenuTest {
         Menu.setScannerSource("responses/nameInvalid.txt");
         String name = Menu.promptForName();
         assertEquals("AERON", name);
+    }
+
+    @Test
+    public void promptToContinue_shouldContinueToPromptUser_whileUserProvidedInvalidInput() {
+        Menu.setScannerSource("responses/promptToContinue_invalid.txt");
+        Boolean continuePrompt = Menu.promptToContinue();
+        assertEquals(false, continuePrompt);
     }
 
     @Test
@@ -65,10 +69,26 @@ public class MenuTest {
     @Test
     public void displayQuitMessage_shouldReadFileAndDisplayMessage_withoutIOException() {
 
+        try {
+            Menu.displayQuitMessage();
+        } catch(Exception e) {
+            fail("Should not have thrown an exception. Is it unable to read the file?");
+        }
     }
 
     @Test
     public void promptForOption_shouldReturnOptionEnum_whenUserProvidesValidInput() {
         // basically when input matches the regex.
+        Menu.setScannerSource("responses/promptForOption_valid.txt");
+        assertEquals(Option.PLAY, Menu.promptForOption());
+        assertEquals(Option.PLAY, Menu.promptForOption());
+        assertEquals(Option.QUIT, Menu.promptForOption());
+        assertEquals(Option.QUIT, Menu.promptForOption());
+    }
+
+    @Test
+    public void prompForOption_shouldContinueToPromptUser_whileUserProvidedInvalidInput() {
+        Menu.setScannerSource("responses/promptForOption_invalid.txt");
+        assertEquals(Option.PLAY, Menu.promptForOption());
     }
 }

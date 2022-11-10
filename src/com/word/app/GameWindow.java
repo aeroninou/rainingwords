@@ -178,7 +178,6 @@ public class GameWindow extends JFrame {
         setResizable(false);
         // Places the window in the center of the screen.
         setLocationRelativeTo(null);
-        // TODO: Window is visible as soon as it's created. May not want this to be the case...
         setVisible(true);
     }
 

@@ -1,7 +1,5 @@
 package com.word;
 
-import java.awt.*;
-
 /**
  * Convenient enum for creating text with different font and background colors.
  */

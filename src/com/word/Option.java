@@ -2,6 +2,6 @@ package com.word;
 
 public enum Option {
     PLAY,
-    //        VIEW_HISTORY,
+    // VIEW_HISTORY,
     QUIT
 }
