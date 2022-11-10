@@ -38,35 +38,33 @@ class Menu {
         }
     }
 
+    public static Option promptForOption() {
+        Console.clear();
+        System.out.println(banner);
+        StringBuilder text = new StringBuilder("\nPlease choose one of the followings:\n");
+
+        for (Option option : Option.values()) {
+            String optionLetter = String.valueOf(option.toString().charAt(0)); //convert letter to string
+            text.append(String.format("[%s] %s\n", Color.YELLOW.setFontColor(optionLetter), option));
+        }
+        text.append("> ");
+
+        String answer = prompt(text.toString(), "(?i)(P|Q)", "Error... ").toUpperCase(); //(?i)(PLAY|VIEW_HISTORY|QUIT)
+
+        Option option = null;
+        if ("P".equals(answer)) {
+            option = Option.PLAY;
+        } else if ("Q".equals(answer)) {
+            option = Option.QUIT;
+        }
+        return option;
+    }
+
     public static String promptForName() {
         Console.clear();
         System.out.println(banner);
         String answer = prompt("\nPlayer Name: ", "[A-Za-z]{2,16}", "must be between 2 and 16 letters\n");
         return answer;
-    }
-
-    public static void displayStatistics(Player player, int scoreAtStartOfRound) {
-        Console.clear();
-        System.out.println(banner);
-        int currentRoundWordCount = player.getScore() - scoreAtStartOfRound;
-        System.out.printf("You got %s words this round.\n", currentRoundWordCount);
-        System.out.printf("Your total score is now: %s\n", player.getScore());
-        Console.pause(3000);
-    }
-
-    public static boolean promptToContinue() {
-        Console.clear();
-        System.out.println(banner);
-        String continueText = String.format("\nContinue? %s: ", Color.YELLOW.setFontColor("Y/N"));
-        // Case-insensitive.
-        String answer = prompt(continueText, "(?i)(Y|N)", "");
-        // if user wants to continue playing print a message asking the user find Game Window
-        boolean findGameWindow = answer.equalsIgnoreCase("Y");
-        if (findGameWindow) {
-            System.out.println(Color.GREEN.setFontColor("Please find the game window on the taskbar....."));
-
-        }
-        return findGameWindow;
     }
 
     public static Difficulty promptForDifficulty() {
@@ -88,6 +86,21 @@ class Menu {
 
 
         return Difficulty.fromAlias(answer);
+    }
+
+    public static boolean promptToContinue() {
+        Console.clear();
+        System.out.println(banner);
+        String continueText = String.format("\nContinue? %s: ", Color.YELLOW.setFontColor("Y/N"));
+        // Case-insensitive.
+        String answer = prompt(continueText, "(?i)(Y|N)", "");
+        // if user wants to continue playing print a message asking the user find Game Window
+        boolean findGameWindow = answer.equalsIgnoreCase("Y");
+        if (findGameWindow) {
+            System.out.println(Color.GREEN.setFontColor("Please find the game window on the taskbar....."));
+
+        }
+        return findGameWindow;
     }
 
     public static void welcome() {
@@ -117,28 +130,15 @@ class Menu {
         Console.clear();
     }
 
-
-    public static Option promptForOption() {
+    public static void displayStatistics(Player player, int scoreAtStartOfRound) {
         Console.clear();
         System.out.println(banner);
-        StringBuilder text = new StringBuilder("\nPlease choose one of the followings:\n");
-
-        for (Option option : Option.values()) {
-            String optionLetter = String.valueOf(option.toString().charAt(0)); //convert letter to string
-            text.append(String.format("[%s] %s\n", Color.YELLOW.setFontColor(optionLetter), option));
-        }
-        text.append("> ");
-
-        String answer = prompt(text.toString(), "(?i)(P|Q)", "Error... ").toUpperCase(); //(?i)(PLAY|VIEW_HISTORY|QUIT)
-
-        Option option = null;
-        if ("P".equals(answer)) {
-            option = Option.PLAY;
-        } else if ("Q".equals(answer)) {
-            option = Option.QUIT;
-        }
-        return option;
+        int currentRoundWordCount = player.getScore() - scoreAtStartOfRound;
+        System.out.printf("You got %s words this round.\n", currentRoundWordCount);
+        System.out.printf("Your total score is now: %s\n", player.getScore());
+        Console.pause(3000);
     }
+
 
     private static String prompt(String promptMessage, String regex, String helpMessage) {
 

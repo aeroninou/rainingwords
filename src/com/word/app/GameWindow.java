@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GameWindow extends JFrame {
+class GameWindow extends JFrame {
 
     private static final String FONT_NAME = "Monospaced";
     private static final int WIDTH = 800;
@@ -160,11 +160,11 @@ public class GameWindow extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        inputArea.add(typeHerePromptLabel, gbc);
+        inputArea.add(typeHerePromptLabel, gbc);    // put at (0, 0)
         gbc.gridx = 1;
-        inputArea.add(wordInputField, gbc);
+        inputArea.add(wordInputField, gbc); // put at (1, 0), right of the "type here" label
         gbc.gridy = 1;
-        inputArea.add(wordEchoLabel, gbc);
+        inputArea.add(wordEchoLabel, gbc);  // put at (1, 1), under text field
         inputArea.setBorder(new EmptyBorder(10, 10, 10, 10));
         this.add(BorderLayout.SOUTH, inputArea);
         inputArea.add(startButton);

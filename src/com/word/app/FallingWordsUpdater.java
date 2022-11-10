@@ -13,9 +13,10 @@ class FallingWordsUpdater {
     private static final int DELTA_Y = 20;  // Fixed distance each word falls each time.
 
     public static void updateLabel(JLabel label, Rectangle bounds) {
+        // look into the Rectangle's intersect method for collisions.
         double disappearCutoff = bounds.getHeight();
         if (label.getText().isBlank() || label.getBounds().y >= disappearCutoff) {
-            moveBackTop(label, bounds); // do nothing.
+            moveBackTop(label, bounds);
         } else {
             int x = label.getBounds().x;
             do {

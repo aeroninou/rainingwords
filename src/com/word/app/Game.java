@@ -20,8 +20,8 @@ public class Game {
     public int wordsLeftCounter;
 
 
-    GameWindow window;
-    Player player;
+    private GameWindow window;
+    private Player player;
 
     /**
      * Starts the application. Allows user to play or quit.
@@ -148,6 +148,7 @@ public class Game {
                     player.setScore(player.getScore() + 1);
                     // update player's score in UI... window.updateScore()
                     window.updateScore(player.getScore());
+                    break;
                 }
             }
             wordInputField.setText("");
